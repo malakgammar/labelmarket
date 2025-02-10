@@ -1,0 +1,58 @@
+/* src/components/AuthCard.css */
+
+.auth-card {
+    width: 300px;
+    height: 550px;
+    perspective: 1000px;
+    margin: auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center; /* Centre verticalement le contenu */
+    margin-bottom: 20px; /* Espace entre le logo et la carte */
+}
+
+.logo img {
+    width: 150px; /* Ajustez la taille de l'image selon vos besoins */
+    height: auto; /* Garde les proportions de l'image */
+    margin-right: 10px; /* Espace entre l'image et le texte */
+    transition: transform 0.3s; /* Animation pour le survol */
+}
+
+.logo img:hover {
+    transform: scale(1.1); /* Agrandit légèrement l'image au survol */
+}
+
+.toggle-button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 10px; /* Espace entre les boutons */
+    transition: background-color 0.3s, transform 0.3s; /* Animation pour le survol */
+}
+
+.toggle-button:hover {
+    background-color: #0056b3; /* Change la couleur de fond au survol */
+    transform: scale(1.05); /* Agrandit légèrement le bouton au survol */
+}
+
+.card-front, .card-back {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-front button,
+.card-back button {
+    align-self: flex-start; /* Aligne les boutons à gauche */
+    transition: transform 0.3s; /* Animation pour le survol des boutons */
+}
+
+.card-front button:hover,
+.card-back button:hover {
+    transform: scale(1.05); /* Agrandit légèrement les boutons au survol */
+}
