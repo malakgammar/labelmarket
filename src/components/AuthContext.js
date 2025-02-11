@@ -1,32 +1,34 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             setUser(JSON.parse(storedUser));
+        } else {
+            const testUser = {
+                nom: 'user',
+                email: 'user@example.com',
+                adresse: 'Casablanca, Maroc',
+                telephone: '+212 6 23 45 67 89',
+            };
+            setUser(testUser);
+            localStorage.setItem('user', JSON.stringify(testUser));
         }
-        setLoading(false);
     }, []);
 
-    const login = async (telephone, password) => {
-        try {
-            const response = await axios.post('http://localhost:5000/api/login', { telephone, password });
-            const userData = response.data;
-            setUser(userData);
-            localStorage.setItem('user', JSON.stringify(userData));
-        } catch (err) {
-            setError('Échec de la connexion.');
-            console.error(err);
-            throw err;
+    const login = (userData) => {
+        if (!userData.email || !userData.password) {
+            setError('Email et mot de passe requis.');
+            return;
         }
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
     };
 
     const logout = () => {
@@ -34,19 +36,8 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('user');
     };
 
-    const register = async (userData) => {
-        try {
-            const response = await axios.post('http://localhost:5000/api/register', userData);
-            setUser(response.data);
-            localStorage.setItem('user', JSON.stringify(response.data));
-        } catch (err) {
-            setError('Échec de l\'inscription.');
-            console.error(err);
-        }
-    };
-
     return (
-        <AuthContext.Provider value={{ user, login, logout, register, loading, error }}>
+        <AuthContext.Provider value={{ user, login, logout, error }}>
             {children}
         </AuthContext.Provider>
     );

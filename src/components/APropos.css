@@ -1,0 +1,80 @@
+.apropos {
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.apropos h1 {
+    text-align: center;
+    color: #c90000;
+    margin-bottom: 20px;
+}
+
+.apropos section {
+    margin-bottom: 30px;
+}
+
+.apropos h2 {
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+
+.province-boxes, .mission-boxes, .valeur-boxes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Deux boîtes par ligne */
+    gap: 30px;
+}
+
+.province-box, .mission-box, .valeur-box {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.province-box:hover, .mission-box:hover, .valeur-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.province-box h3, .mission-box h3, .valeur-box h3 {
+    color: #c90000;
+    margin-bottom: 10px;
+}
+
+.province-box p, .mission-box p, .valeur-box p {
+    color: #555;
+}
+
+.stars {
+    font-size: 20px; /* Taille des étoiles */
+    color: #ffcc00; /* Couleur des étoiles */
+    margin: 5px 0; /* Espacement autour des étoiles */
+}
+
+.temoignage-box {
+    border-radius: 8px;
+    padding: 15px; /* Espacement interne (padding) */
+    margin: 10px 0; /* Espacement externe (margin) entre les boîtes */
+    background: #f9f9f9;
+    transition: box-shadow 0.3s ease; /* Effet d'ombre lors du survol */
+}
+
+.temoignage-box:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombre au survol */
+}
+
+.avatar {
+    border-radius: 50%; /* Rendre l'image ronde */
+    width: 50px; /* Largeur de l'avatar */
+    height: 50px; /* Hauteur de l'avatar */
+    object-fit: cover; /* Assurer que l'image est bien ajustée */
+    margin-right: 10px; /* Espacement à droite de l'avatar */
+}

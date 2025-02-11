@@ -66,10 +66,10 @@ const Profile = () => {
             <h2>Mon Profil - ملفي الشخصي</h2>
 
             <h3>Informations Personnelles - المعلومات الشخصية</h3>
-            <p><strong>Nom complet - اسم كامل:</strong> {user.nom}</p>
-            <p><strong>Email - البريد الإلكتروني:</strong> {user.email}</p>
-            <p><strong>Adresse - عنوان:</strong> {user.adresse}</p>
-            <p><strong>Téléphone - رقم الهاتف:</strong> {user.telephone}</p>
+            <p><strong>*Nom complet - اسم كامل:</strong></p> <p> {user.nom}</p>
+            <p><strong>*Email - البريد الإلكتروني:</strong></p> <p> {user.email}</p>
+            <p><strong>*Adresse - عنوان:</strong></p> <p> {user.adresse}</p>
+            <p><strong>*Téléphone - رقم الهاتف:</strong></p> <p>{user.telephone}</p>
 
             <div className="profile-actions">
                 <Link to="/modifier-profil" onClick={() => handleModify(user.id)} className="action-button">Modifier le Profil - تعديل الملف الشخصي</Link>
