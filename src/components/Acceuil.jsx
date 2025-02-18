@@ -131,11 +131,6 @@ export const Acceuil = () => {
                     </div>
                 </section>
 
-            </main>
-
-            <div id="apropos" className="apropos" data-aos="fade-up">
-
-                <h1>À Propos de Nous / معلومات عنا</h1>
                 <section className="historique">
                     <h2>Historique / التاريخ</h2>
                     <p>
