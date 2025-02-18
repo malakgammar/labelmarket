@@ -5,6 +5,7 @@ import './Acceuil.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Slider from 'react-slick';
+import emailjs from 'emailjs-com';
 
 const produits = [
     { id: 1, nom: 'Produit en Gros 1', img: 'https://via.placeholder.com/150' },
@@ -13,30 +14,45 @@ const produits = [
 ];
 
 export const Header = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
     return (
-    <header className="header">
-    <div className="logo">
-    <Link to="/">
-    <img src="/logo.png" alt="Logo" />
-    </Link>
-    </div>
-    <h1>LabelMarket</h1>
-    <nav className="nav">
-    <ul>
-    <li><Link to="/authentification">Profil - الملف الشخصي</Link></li>
-    <li><Link to="/produits">Produits - منتجات </Link></li>
-    <li><a href="#apropos">À Propos - حول</a></li>
-    <li><Link to="#contact">Contact - تواصل معنا</Link></li>
-    </ul>
-    </nav>
-    </header>
+        <header className="header">
+            <div className="logo">
+                <Link to="/">
+                    <img src="/logo.png" alt="Logo" />
+                </Link>
+            </div>
+            <h1>LabelMarket</h1>
+            <button className="menu-toggle" onClick={toggleMenu}>
+                {isMenuOpen ? '✖' : '☰'}
+            </button>
+            <nav className={`nav ${isMenuOpen ? 'open' : ''}`}>
+                <ul>
+                    <li><Link to="/authentification">Profil - الملف الشخصي</Link></li>
+                    <li><Link to="/produits">Produits - منتجات</Link></li>
+                    <li><a href="#apropos">À Propos - حول</a></li>
+                    <li><Link to="#contact">Contact - تواصل معنا</Link></li>
+                </ul>
+            </nav>
+        </header>
     );
 };
 
 export const Acceuil = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
-
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        message: ''
+    });
+    const [successMessage, setSuccessMessage] = useState('');
+    
     useEffect(() => {
         AOS.init();
         const timer = setTimeout(() => {
@@ -51,6 +67,27 @@ export const Acceuil = () => {
         setTimeout(() => {
             navigate('/produits');
         }, 500);
+    };
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData, 'YOUR_USER_ID')
+            .then((response) => {
+                console.log('SUCCESS!', response.status, response.text);
+                setSuccessMessage('Votre message a été envoyé avec succès !'); // Message de succès
+                setFormData({ name: '', email: '', message: '' }); // Réinitialiser le formulaire
+            }, (err) => {
+                console.error('FAILED...', err);
+                setSuccessMessage('Une erreur est survenue. Veuillez réessayer.'); // Message d'erreur
+            });
     };
 
     if (loading) {
@@ -72,20 +109,19 @@ export const Acceuil = () => {
             <div className="carousel">
                 <Slider {...settings}>
                     <div>
-                        <img src="/carou1.png" alt="1" />
+                        <img src="/carou1.png" alt="Carrousel 1" />
                     </div>
                     <div>
-                        <img src="/carou2.png" alt="2" />
+                        <img src="/carou2.png" alt="Carrousel 2" />
                     </div>
                     <div>
-                        <img src="/carou3.png" alt="3" />
+                        <img src="/carou3.png" alt="Carrousel 3" />
                     </div>
                     <div>
-                        <img src="/carou4.png" alt="4" />
+                        <img src="/carou4.png" alt="Carrousel 4" />
                     </div>
                 </Slider>
             </div>
-
 
             <main className="main">
                 <section className="hero" data-aos="fade-up">
@@ -96,13 +132,15 @@ export const Acceuil = () => {
                     <p>اكتشف منتجاتنا بالجملة وأفضل العروض لدينا!</p>
                     <button onClick={handleProductClick} className="cta-button">Voir les produits - عرض المنتجات</button>
                 </section>
+                
                 <section id="coupons" className="coupons fixed">
-                <h3>Coupons  -  قسائم</h3>
-                <p>Utilisez le code <strong>GROSS20</strong> pour obtenir 20% de réduction sur votre première commande en gros!</p>
-                <p>استخدم الرمز <strong>GROSS20</strong> للحصول على خصم 20% على طلبك الأول بالجملة!</p>
-            </section>
+                    <h3>Coupons - قسائم</h3>
+                    <p>Utilisez le code <strong>GROSS20</strong> pour obtenir 20% de réduction sur votre première commande en gros!</p>
+                    <p>استخدم الرمز <strong>GROSS20</strong> للحصول على خصم 20% على طلبك الأول بالجملة!</p>
+                </section>
+
                 <section id="produits" className="apropos" data-aos="fade-up">
-                    <h3>Nos Produits   -  منتجاتنا</h3>
+                    <h3>Nos Produits - منتجاتنا</h3>
                     <div className="mission-box">
                         {produits.map(produit => (
                             <div key={produit.id} className="produit-card" data-aos="zoom-in">
@@ -114,24 +152,20 @@ export const Acceuil = () => {
                 </section>
 
                 <section id="apropos" className="apropos" data-aos="fade-up">
-                    <h3>Promotions   -   عروض</h3>
+                    <h3>Promotions - عروض</h3>
                     <div className="historique">
-                        <div className="temoignage-box" data-aos="fade-right">
-                            <p>20% de réduction sur tous les produits en gros!</p>
-                            <p> خصم 20% على جميع المنتجات بالجملة!</p>
-                        </div>
-                        <div className="temoignage-box" data-aos="fade-right">
-                            <p>15% de réduction sur les commandes de plus de 1000DH!</p>
-                            <p>  خصم 15% على الطلبات التي تزيد عن 1000 درهم!</p>
-                        </div>
-                        <div className="temoignage-box" data-aos="fade-right">
-                            <p>Achetez-en 2 en gros, obtenez-en 1 gratuit!</p>
-                            <p> اشترِ 2 بالجملة، واحصل على 1 مجانًا!</p>
-                        </div>
+                        {['20% de réduction sur tous les produits en gros!', 
+                          '15% de réduction sur les commandes de plus de 1000DH!', 
+                          'Achetez-en 2 en gros, obtenez-en 1 gratuit!'].map((promotion, index) => (
+                            <div className="temoignage-box" data-aos="fade-right" key={index}>
+                                <p>{promotion}</p>
+                                <p>خصم {promotion.includes('20%') ? '20%' : promotion.includes('15%') ? '15%' : 'اشترِ 2 بالجملة، واحصل على 1 مجانًا!'}</p>
+                            </div>
+                        ))}
                     </div>
                 </section>
 
-                <section className="historique">
+                <section id="historique" className="historique" data-aos="fade-up">
                     <h2>Historique / التاريخ</h2>
                     <p>
                         Fondé en 2000, LabelMarket a commencé comme une petite plateforme de vente de produits locaux. 
@@ -143,22 +177,22 @@ export const Acceuil = () => {
                 </section>
 
                 <section className="provinces">
-    <h2>Nos Provinces / مقاطعاتنا</h2>
-    <div className="province-boxes">
-        {[
-            { name: 'Casablanca-Settat', location: 'Centre économique du Maroc, avec une grande diversité culturelle.' },
-            { name: 'Rabat-Salé-Kénitra', location: 'Capitale politique et administrative du Maroc.' },
-            { name: 'Marrakech-Safi', location: 'Ville historique connue pour ses souks et sa médina.' },
-            { name: 'Fès-Meknès', location: 'Célèbre pour ses anciens sites historiques et ses artisans.' },
-            { name: 'Tanger-Tétouan-Al Hoceima', location: 'Port méditerranéen avec une riche histoire maritime.' }
-        ].map((province) => (
-            <div className="province-box" key={province.name} data-aos="zoom-in">
-                <h3>{province.name}</h3>
-                <p>Localisation : {province.location}</p>
-            </div>
-        ))}
-    </div>
-</section>
+                    <h2>Nos Provinces / مقاطعاتنا</h2>
+                    <div className="province-boxes">
+                        {[
+                            { name: 'Casablanca-Settat', location: 'Centre économique du Maroc, avec une grande diversité culturelle.' },
+                            { name: 'Rabat-Salé-Kénitra', location: 'Capitale politique et administrative du Maroc.' },
+                            { name: 'Marrakech-Safi', location: 'Ville historique connue pour ses souks et sa médina.' },
+                            { name: 'Fès-Meknès', location: 'Célèbre pour ses anciens sites historiques et ses artisans.' },
+                            { name: 'Tanger-Tétouan-Al Hoceima', location: 'Port méditerranéen avec une riche histoire maritime.' }
+                        ].map((province) => (
+                            <div className="province-box" key={province.name} data-aos="zoom-in">
+                                <h3>{province.name}</h3>
+                                <p>Localisation : {province.location}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
 
                 <section className="missions">
                     <h2>Nos Missions / مهامنا</h2>
@@ -188,69 +222,64 @@ export const Acceuil = () => {
                         ))}
                     </div>
                 </section>
-                {/* Section de Témoignages Clients */}
+
                 <section className="temoignages">
                     <h2>Témoignages Clients / آراء العملاء</h2>
                     <div className="temoignage-boxes">
-                        {/* Témoignage 1 */}
-                        <div className="temoignage-box" data-aos="zoom-in">
-                            <div className="profile">
-                                <img src="/profile.png" alt="Marie Dupont" className="avatar" />
-                                <div className="profile-info">
-                                    <h3>Marie Dupont</h3>
-                                    <p>mariiie@gmail.com</p>
+                        {[
+                            { name: 'Marie Dupont', email: 'mariiie@gmail.com', stars: '⭐⭐⭐⭐⭐', comment: 'Un excellent service et des produits de haute qualité. Je recommande vivement!' },
+                            { name: 'Ahmed El Mansouri', email: 'elmansouri@gmail.com', stars: '⭐⭐⭐⭐', comment: 'J\'ai toujours été satisfait de mes commandes. Bravo à l\'équipe!' },
+                            { name: 'Fatima Zahra', email: 'fatimben@gmail.com', stars: '⭐⭐⭐⭐⭐', comment: 'Une expérience d\'achat incroyable! Je reviendrai sûrement.' },
+                            { name: 'Omar Benali', email: 'omarbenali@gmail.com', stars: '⭐⭐⭐⭐', comment: 'Produits de qualité et livraison rapide. Très satisfait!' }
+                        ].map((temoignage) => (
+                            <div className="temoignage-box" data-aos="zoom-in" key={temoignage.name}>
+                                <div className="profile">
+                                    <img src="/profile.png" alt={temoignage.name} className="avatar" />
+                                    <div className="profile-info">
+                                        <h3>{temoignage.name}</h3>
+                                        <p>{temoignage.email}</p>
+                                    </div>
                                 </div>
+                                <div className="stars">{temoignage.stars}</div>
+                                <p>{temoignage.comment}</p>
                             </div>
-                            <div className="stars">⭐⭐⭐⭐⭐</div>
-                            <p>Un excellent service et des produits de haute qualité. Je recommande vivement!</p>
-                            <p>خدمة ممتازة ومنتجات عالية الجودة. أوصي بشدة!</p>
-                        </div>
-
-                        {/* Témoignage 2 */}
-                        <div className="temoignage-box" data-aos="zoom-in">
-                            <div className="profile">
-                                <img src="/profile.png" alt="Ahmed El Mansouri" className="avatar" />
-                                <div className="profile-info">
-                                    <h3>Ahmed El Mansouri</h3>
-                                    <p>elmansouri@gmail.com</p>
-                                </div>
-                            </div>
-                            <div className="stars">⭐⭐⭐⭐</div>
-                            <p>J'ai toujours été satisfait de mes commandes. Bravo à l'équipe!</p>
-                            <p>لقد كنت دائمًا راضيًا عن طلبي. أحسنت يا فريق!</p>
-                        </div>
-
-                        {/* Témoignage 3 */}
-                        <div className="temoignage-box" data-aos="zoom-in">
-                            <div className="profile">
-                                <img src="/profile.png" alt="Fatima Zahra" className="avatar" />
-                                <div className="profile-info">
-                                    <h3>Fatima Zahra</h3>
-                                    <p>fatimben@gmail.com</p>
-                                </div>
-                            </div>
-                            <div className="stars">⭐⭐⭐⭐⭐</div>
-                            <p>Une expérience d'achat incroyable! Je reviendrai sûrement.</p>
-                            <p>تجربة تسوق رائعة! سأعود بالتأكيد.</p>
-                        </div>
-
-                        {/* Témoignage 4 */}
-                        <div className="temoignage-box" data-aos="zoom-in">
-                            <div className="profile">
-                                <img src="/profile.png" alt="Omar Benali" className="avatar" />
-                                <div className="profile-info">
-                                    <h3>Omar Benali</h3>
-                                    <p>omarbenali@gmail.com</p>
-                                </div>
-                            </div>
-                            <div className="stars">⭐⭐⭐⭐</div>
-                            <p>Produits de qualité et livraison rapide. Très satisfait!</p>
-                            <p>منتجات عالية الجودة وتوصيل سريع. أنا راضٍ جدًا!</p>
-                        </div>
+                        ))}
                     </div>
                 </section>
 
-            </div>
+                <section id="contact" className="contact" data-aos="fade-up">
+                    <h2>Contactez-nous - تواصل معنا</h2>
+                    <p>Pour toute question, n'hésitez pas à nous contacter :</p>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="name">Nom - الاسم :</label>
+                            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
+                        </div>
+                        <div>
+                            <label htmlFor="email">Email - البريد الإلكتروني :</label>
+                            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
+                        </div>
+                        <div>
+                            <label htmlFor="message">Message - الرسالة :</label>
+                            <textarea id="message" name="message" value={formData.message} onChange={handleChange} required></textarea>
+                        </div>
+                        <button type="submit">Envoyer - إرسال</button>
+                    </form>
+                    {successMessage && <p className="success-message">{successMessage}</p>}
+                    <div className="map-container">
+                        <h3>Notre Localisation - موقعنا :</h3>
+                        <iframe
+                            title="Google Map Location"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509197!2d-7.60969161531567!3d33.57311088085962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12358e24d5a2c0ab%3A0x9f8d1a9b3d3d4b38!2sCasablanca%2C%20Maroc!5e0!3m2!1sen!2sus!4v1618417985084!5m2!1sen!2sus"
+                            width="600"
+                            height="450"
+                            style={{ border: 0 }}
+                            allowFullScreen=""
+                            loading="lazy"
+                        ></iframe>
+                    </div>
+                </section>
+            </main>
         </div>
     );
 };

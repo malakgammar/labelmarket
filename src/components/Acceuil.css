@@ -1,38 +1,53 @@
 @import '~slick-carousel/slick/slick.css';
 @import '~slick-carousel/slick/slick-theme.css';
+
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+  margin:50;
+  padding: 60;
   line-height: 1.6;
   background-color: #f4f4f4;
-
+  padding-top: 70px; /* Ajoute un rembourrage pour éviter que le contenu ne soit masqué par l'en-tête */
 }
 
 .header {
-  position: fixed;        /* Fixe l'en-tête en haut de la page */
-  top: 0;                /* Positionne l'en-tête en haut */
-  left: 0;               /* Positionne l'en-tête à gauche */
-  width: 100%;           /* Prend toute la largeur de la fenêtre */
-  background: white;     /* Couleur de fond blanche */
-  color: #000000;        /* Couleur du texte en noir */
-  padding: 10px 20px;    /* Ajoute du rembourrage autour du contenu */
-  display: flex;         /* Utilise le Flexbox pour l'alignement */
-  align-items: center;   /* Aligne verticalement les éléments */
+  position: fixed; /* Fixe l'en-tête en haut de la page */
+  top: 0; /* Positionne l'en-tête en haut */
+  left: 0; /* Positionne l'en-tête à gauche */
+  width: 100%; /* Prend toute la largeur de la fenêtre */
+  background: white; /* Couleur de fond blanche */
+  color: #000000; /* Couleur du texte en noir */
+  display: flex; /* Utilise le Flexbox pour l'alignement */
+  align-items: center; /* Aligne verticalement les éléments */
   justify-content: space-between; /* Espace entre les éléments */
-  z-index: 1000;         /* Assure que l'en-tête est au-dessus des autres éléments */
+  padding: 10px 20px; /* Ajoute du rembourrage autour du contenu */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour un effet de profondeur */
+  z-index: 1000; /* Assure que l'en-tête est au-dessus des autres éléments */
 }
 
-
-.header .logo img {
+.logo img {
   height: 90px;
 }
 
-.nav ul {
-  list-style: none;
+.nav {
   display: flex;
-  gap: 15px;
+}
+
+.nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 15px; /* Espacement entre les éléments du menu */
+}
+
+.nav li {
+  margin: 0 15px;
+  transition: background-color 0.3s;
+}
+
+.nav li:hover {
+  background-color: #f0f0f0; /* Couleur de fond lors du survol */
 }
 
 .nav a {
@@ -40,42 +55,81 @@ body {
   text-decoration: none;
   font-size: large;
 }
-.nav a :hover{
+
+.nav a:hover {
   color: rgb(161, 1, 12);
   text-decoration: none;
 }
+
+.menu-toggle {
+  display: none; /* Masqué par défaut */
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    display: flex; /* Affiche le menu en mode colonne */
+    flex-direction: column;
+    position: absolute;
+    top: 70px; /* Ajustez selon votre en-tête */
+    right: 0;
+    background-color: #fff;
+    width: 100%;
+    max-height: 0; /* Masqué par défaut */
+    overflow: hidden; /* Masque le contenu débordant */
+    transition: max-height 0.3s ease; /* Animation de transition */
+  }
+
+  .nav.open {
+    max-height: 300px; /* Ajustez selon vos besoins */
+    display: flex; /* Affiche le menu quand 'open' est vrai */
+  }
+
+  .menu-toggle {
+    display: block; /* Affiché sur petits écrans */
+  }
+
+  .nav li {
+    margin: 10px 0; /* Espacement vertical entre les éléments du menu */
+    padding: 10px 15px; /* Espacement intérieur pour un meilleur clic */
+  }
+}
+
 .acceuil {
   padding: 20px;
 }
 
-  .carousel {
-    position: relative;
-    width: 100%;         /* Prendre toute la largeur disponible */
-    max-width: 1200px;  /* Largeur maximale pour le carrousel */
-    margin: 0 auto;      /* Centrer le carrousel */
-    border: 2px solid #ccc; /* Bordure autour de la boîte */
-    border-radius: 8px;  /* Coins arrondis */
-    overflow: hidden;     /* Masquer les débordements */
+.carousel {
+  position: relative;
+  width: 100%; /* Prendre toute la largeur disponible */
+  max-width: 1200px; /* Largeur maximale pour le carrousel */
+  margin: 0 auto; /* Centrer le carrousel */
+  border: 2px solid #ccc; /* Bordure autour de la boîte */
+  border-radius: 8px; /* Coins arrondis */
+  overflow: hidden; /* Masquer les débordements */
 }
 
 .carousel img {
-    width: 100%;         /* Prendre toute la largeur du carrousel */
-    height: auto;        /* Hauteur automatique pour garder le ratio */
-    object-fit: cover;   /* Couvrir le conteneur sans déformer l'image */
+  width: 100%; /* Prendre toute la largeur du carrousel */
+  height: auto; /* Hauteur automatique pour garder le ratio */
+  object-fit: cover; /* Couvrir le conteneur sans déformer l'image */
 }
 
 /* Styles pour les points d'indication */
 .slick-dots {
-    bottom: 10px; /* Position des points */
+  bottom: 10px; /* Position des points */
 }
 
 .slick-dots li button:before {
-    font-size: 12px; /* Taille des points */
-    color: #fff;     /* Couleur des points */
+  font-size: 12px; /* Taille des points */
+  color: #fff; /* Couleur des points */
 }
 
 .slick-dots li.slick-active button:before {
-    color: #ffffff; /* Couleur du point actif */
+  color: #ffffff; /* Couleur du point actif */
 }
 
 .hero {
@@ -98,7 +152,6 @@ body {
   text-align: center;
   margin-bottom: 20px;
 }
-
 .produits, .promotions, .publicite, .historique, .missions, .temoignages, .valeurs {
   margin: 20px 0;
   background: #fff;
@@ -109,16 +162,16 @@ body {
 
 .produit-list, .promo-list, .pub-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne */
+  gap: 15px; /* Espacement entre les éléments */
 }
 
 .produit-card, .promo-card, .pub-card {
-  flex: 1 1 30%; /* Adjust as necessary */
+  flex: 1 1 calc(33.33% - 15px); /* Ajuste à trois boîtes par ligne avec un espacement */
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px;
-  background: #f9f9f9;
+  background: #f9f9f9; /* Style des boîtes */
 }
 
 .province-box, .mission-box, .valeur-box {
@@ -155,6 +208,11 @@ body {
   color: #ffcc00;
 }
 
+@media (max-width: 768px) {
+  .produit-card, .promo-card, .pub-card {
+    flex: 1 1 100%; /* Empile sur les petits écrans */
+  }
+}
 .footer {
   background: #33333314;
   color: #000000;
@@ -165,8 +223,41 @@ body {
   width: 100%;
 }
 
-@media (max-width: 768px) {
-  .produit-card, .promo-card, .pub-card {
-      flex: 1 1 100%; /* Stack on small screens */
-  }
+.contact {
+  margin: 20px 0;
+  padding: 15px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.contact form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact label {
+  font-weight: bold;
+}
+
+.contact input, .contact textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.map-container {
+  margin-top: 20px;
+}
+
+iframe {
+  width: 100%;
+  border: none;
+}
+
+.success-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
 }
