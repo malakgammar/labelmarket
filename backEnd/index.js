@@ -7,6 +7,9 @@ import dotenv from "dotenv";
 import userRoute from "./routes/userRoute.js";
 import commandeRoute from './routes/commandeRoute.js';
 import messageRoute from "./routes/messageRoute.js";
+import categoryRoute from "./routes/categoryRoute.js";
+import productRoute from "./routes/productRoute.js";
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -30,3 +33,5 @@ mongoose
 app.use("/user", userRoute);
 app.use('/commande', commandeRoute);
 app.use('/message', messageRoute);
+app.use('/category', categoryRoute);
+app.use('/produit',productRoute);
