@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 //Line to to added 
 import userRoute from "./routes/userRoute.js";
 import commandeRoute from './routes/commandeRoute.js';
+import messageRoute from "./routes/messageRoute.js";
 
 const app = express();
 app.use(bodyParser.json());
@@ -28,3 +29,4 @@ mongoose
 // Line to be added 
 app.use("/user", userRoute);
 app.use('/commande', commandeRoute);
+app.use('/message', messageRoute);

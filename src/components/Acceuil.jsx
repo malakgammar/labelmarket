@@ -33,10 +33,10 @@ export const Header = () => {
             </button>
             <nav className={`nav ${isMenuOpen ? 'open' : ''}`}>
                 <ul>
-                    <li><Link to="/authentification">Profil - الملف الشخصي</Link></li>
                     <li><Link to="/produits">Produits - منتجات</Link></li>
                     <li><a href="#apropos">À Propos - حول</a></li>
-                    <li><Link to="#contact">Contact - تواصل معنا</Link></li>
+                    <li><a href="#contact">Contact - تواصل معنا</a></li>
+                    <li><Link to="/authentification">Profil - الملف الشخصي</Link></li>
                 </ul>
             </nav>
         </header>
