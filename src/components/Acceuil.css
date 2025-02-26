@@ -13,14 +13,12 @@ body {
 .header {
   position: fixed; /* Fixe l'en-tête en haut de la page */
   top: 0; /* Positionne l'en-tête en haut */
-  left: 0; /* Positionne l'en-tête à gauche */
   width: 100%; /* Prend toute la largeur de la fenêtre */
   background: white; /* Couleur de fond blanche */
   color: #000000; /* Couleur du texte en noir */
   display: flex; /* Utilise le Flexbox pour l'alignement */
   align-items: center; /* Aligne verticalement les éléments */
   justify-content: space-between; /* Espace entre les éléments */
-  padding: 10px 20px; /* Ajoute du rembourrage autour du contenu */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour un effet de profondeur */
   z-index: 1000; /* Assure que l'en-tête est au-dessus des autres éléments */
 }
@@ -180,16 +178,23 @@ body {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   background: #f9f9f9;
+  display: inline-block; /* Permet aux éléments de s'aligner horizontalement */
+  height: 200px; /* Hauteur fixe de 200px */
+  width: 40%;
 }
 
 .temoignage-box {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 15px;
-  margin: 10px 0;
-  background: #f9f9f9;
+  border: 1px solid #e0e0e0; /* Bordure grise claire */
+  border-radius: 8px; /* Coins arrondis */
+  padding: 15px; /* Espacement interne de 15px */
+  margin: 10px 0; /* Espacement externe de 10px en haut et en bas */
+  background: #f9f9f9; /* Couleur de fond très claire */
+  display: flex; /* Permet aux éléments de s'aligner horizontalement */
+  height: 200px; /* Hauteur fixe de 200px */
+  width: 40%; /* Largeur de 40% de l'élément parent */
+  gap: 20px; /* Espace de 20px entre les éléments */
+  flex-wrap: wrap;
 }
-
 .profile {
   display: flex;
   align-items: center;

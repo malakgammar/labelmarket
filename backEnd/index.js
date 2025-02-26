@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
-//Line to to added 
 import userRoute from "./routes/userRoute.js";
 import commandeRoute from './routes/commandeRoute.js';
 import messageRoute from "./routes/messageRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
 import productRoute from "./routes/productRoute.js";
+import authRoute from './routes/authRoute.js';
 
 
 const app = express();
@@ -29,9 +29,9 @@ mongoose
   })
   .catch((error) => console.log(error));
 
-// Line to be added 
 app.use("/user", userRoute);
 app.use('/commande', commandeRoute);
 app.use('/message', messageRoute);
 app.use('/category', categoryRoute);
-app.use('/produit',productRoute);
+app.use('/product',productRoute);
+app.use('/auth', authRoute);

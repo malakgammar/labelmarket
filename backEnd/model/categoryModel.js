@@ -6,5 +6,4 @@ const categorySchema = new mongoose.Schema({
     dateCréation: { type: Date, default: Date.now}
 });
 
-// Création du modèle Category
 export default mongoose.model('Category', categorySchema);

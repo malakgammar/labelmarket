@@ -228,13 +228,13 @@ export const Acceuil = () => {
                     <div className="temoignage-boxes">
                         {[
                             { name: 'Marie Dupont', email: 'mariiie@gmail.com', stars: '⭐⭐⭐⭐⭐', comment: 'Un excellent service et des produits de haute qualité. Je recommande vivement!' },
-                            { name: 'Ahmed El Mansouri', email: 'elmansouri@gmail.com', stars: '⭐⭐⭐⭐', comment: 'J\'ai toujours été satisfait de mes commandes. Bravo à l\'équipe!' },
+                            { name: 'Ahmed El Mansouri', email: 'elmansouri@gmail.com', stars: '⭐⭐⭐⭐', comment: 'J\'ai toujours été satisfait de mes commandes. Bravo à l\'équipe 👏👏👏👏' },
                             { name: 'Fatima Zahra', email: 'fatimben@gmail.com', stars: '⭐⭐⭐⭐⭐', comment: 'Une expérience d\'achat incroyable! Je reviendrai sûrement.' },
                             { name: 'Omar Benali', email: 'omarbenali@gmail.com', stars: '⭐⭐⭐⭐', comment: 'Produits de qualité et livraison rapide. Très satisfait!' }
                         ].map((temoignage) => (
                             <div className="temoignage-box" data-aos="zoom-in" key={temoignage.name}>
                                 <div className="profile">
-                                    <img src="/profile.png" alt={temoignage.name} className="avatar" />
+                                    <img src="/photoProfile.png" alt={temoignage.name} className="avatar" />
                                     <div className="profile-info">
                                         <h3>{temoignage.name}</h3>
                                         <p>{temoignage.email}</p>

@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
 import Loader from './Loader';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const { login } = useAuth();
-    const [telephone, setTelephone] = useState('');
+    const { login, user, error } = useAuth();
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
-        try {
-            await login(telephone, password);
-        } catch (err) {
-            setError('Erreur lors de la connexion.');
-            console.error(err);
-        } finally {
-            setLoading(false);
+        await login(email, password); // Appelle la fonction login
+
+        // Vérifie si l'utilisateur est connecté après la promesse
+        if (user) {
+            navigate('/profile'); // Redirige vers la page de profil si l'utilisateur est connecté
         }
+
+        setLoading(false);
     };
 
     if (loading) {
@@ -32,12 +33,12 @@ const Login = () => {
             <h3>Connexion / تسجيل الدخول</h3>
             {error && <p className="text-danger">{error}</p>}
             <div className="mb-3">
-                <label className="form-label">Numéro de téléphone / رقم الهاتف</label>
+                <label className="form-label">Email / البريد الإلكتروني</label>
                 <input
-                    type="tel"
+                    type="email"
                     className="form-control"
-                    value={telephone}
-                    onChange={(e) => setTelephone(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                 />
             </div>

@@ -1,30 +1,28 @@
-// Importer le modèle de commande depuis commandeModel.js
 import Commande from "../model/commandeModel.js";
 
-// Pour poster des données dans la base de données
 export const create = async (req, res) => {
     try {
-        const { date, status, idproduits, total } = req.body;
+        const { status, produits, total } = req.body;
 
-        // Créer une nouvelle instance de Commande
-        const commandeData = new Commande({ date, status, idproduits, total });
+        if (!status || !Array.isArray(produits) || produits.length === 0 || !total) {
+            return res.status(400).json({ message: "Tous les champs sont requis." });
+        }
 
-        // Vérifier si une commande avec les mêmes détails existe déjà
-        const commandeExists = await Commande.findOne({ date, status, idproduits, total });
+        const commandeData = new Commande({ status, produits, total });
+
+        const commandeExists = await Commande.findOne({ status, produits, total });
         if (commandeExists) {
             return res.status(400).json({ message: "Commande déjà existante." });
         }
 
-        // Enregistrer les données de la nouvelle commande dans la base de données
         const savedCommande = await commandeData.save();
-        res.status(200).json(savedCommande);
+        res.status(201).json(savedCommande);
     } catch (error) {
-        console.error(error); // Afficher l'erreur dans la console
+        console.error(error); 
         res.status(500).json({ error: "Erreur interne du serveur." });
     }
 }
 
-// Pour obtenir toutes les commandes de la base de données
 export const fetch = async (req, res) => {
     try {
         const commandes = await Commande.find();
@@ -33,12 +31,11 @@ export const fetch = async (req, res) => {
         }
         res.status(200).json(commandes);
     } catch (error) {
-        console.error(error); // Afficher l'erreur dans la console
+        console.error(error);
         res.status(500).json({ error: "Erreur interne du serveur." });
     }
 }
 
-// Pour mettre à jour des données
 export const update = async (req, res) => {
     try {
         const id = req.params.id;
@@ -49,12 +46,11 @@ export const update = async (req, res) => {
         const updateCommande = await Commande.findByIdAndUpdate(id, req.body, { new: true });
         res.status(200).json(updateCommande);
     } catch (error) {
-        console.error(error); // Afficher l'erreur dans la console
+        console.error(error); 
         res.status(500).json({ error: "Erreur interne du serveur." });
     }
 }
 
-// Pour supprimer des données de la base de données
 export const deleteCommande = async (req, res) => {
     try {
         const id = req.params.id;
@@ -65,7 +61,7 @@ export const deleteCommande = async (req, res) => {
         await Commande.findByIdAndDelete(id);
         res.status(200).json({ message: "Commande supprimée avec succès." });
     } catch (error) {
-        console.error(error); // Afficher l'erreur dans la console
+        console.error(error); 
         res.status(500).json({ error: "Erreur interne du serveur." });
     }
 }
