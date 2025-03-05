@@ -170,7 +170,7 @@ export const Acceuil = () => {
                         Fondé en 2000, LabelMarket a commencé comme une petite plateforme de vente de produits locaux. 
                         Grâce à notre engagement envers la qualité et le service client, nous avons rapidement grandi pour devenir 
                         l'un des principaux acteurs du commerce en ligne.
-                        <br />
+                        <br /> <br />
                         تأسست LabelMarket في عام 2000، وبدأت كمنصة صغيرة لبيع المنتجات المحلية. بفضل التزامنا بالجودة وخدمة العملاء، نما بسرعة لنصبح أحد اللاعبين الرئيسيين في التجارة الإلكترونية.
                     </h5></p>
                 </section>

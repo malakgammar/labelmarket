@@ -22,7 +22,7 @@ const CategoriesPage = () => {
 
             // Initialiser les quantités
             const initialQuantities = data.reduce((acc, product) => {
-                acc[product._id.$oid] = 1; // Utiliser product._id.$oid pour l'ID
+                acc[product._id] = 1; // Utiliser product._id pour l'ID
                 return acc;
             }, {});
             setQuantities(initialQuantities);
@@ -67,6 +67,11 @@ const CategoriesPage = () => {
     const handleAddToCart = async (productId, productName) => {
         const quantity = quantities[productId] || 1;
 
+        if (isNaN(quantity)) {
+            alert("Veuillez entrer une quantité valide.");
+            return;
+        }
+
         try {
             const response = await fetch("http://localhost:5000/cart/add", {
                 method: "POST",
@@ -95,7 +100,7 @@ const CategoriesPage = () => {
 
     // Fonction pour filtrer les produits par catégorie
     const filteredProducts = selectedCategory
-        ? products.filter((product) => product.idCategorie.$oid === selectedCategory)
+        ? products.filter((product) => product.idCategorie === selectedCategory)
         : products;
 
     // Affichage en fonction de l'état de chargement et des erreurs
@@ -113,7 +118,6 @@ const CategoriesPage = () => {
 
             {/* Filtre par catégorie */}
             <div className="category-filter">
-                <label htmlFor="category">Filtrer par catégorie :</label>
                 <select
                     id="category"
                     value={selectedCategory}
@@ -121,7 +125,7 @@ const CategoriesPage = () => {
                 >
                     <option value="">Toutes les catégories</option>
                     {categories.map((category) => (
-                        <option key={category._id.$oid} value={category._id.$oid}>
+                        <option key={category._id} value={category._id}>
                             {category.nom}
                         </option>
                     ))}
@@ -134,20 +138,20 @@ const CategoriesPage = () => {
             ) : (
                 <div className="product-list">
                     {filteredProducts.map((product) => (
-                        <div key={product._id.$oid} className="product-card">
+                        <div key={product._id} className="product-card">
                             <img src={product.photo} alt={product.nom} />
                             <h3>{product.nom}</h3>
-                            <p className="productPrice">${product.prix.toFixed(2)}</p>
+                            <p className="productPrice">{product.prix.toFixed(2)} MAD</p>
                             <p className="productDescription">{product.description}</p>
                             <input
                                 type="number"
                                 min="1"
-                                value={quantities[product._id.$oid] || 1}
-                                onChange={(e) => handleQuantityChange(product._id.$oid, e.target.value)}
+                                value={quantities[product._id] || 1}
+                                onChange={(e) => handleQuantityChange(product._id, e.target.value)}
                                 className="quantityInput"
                             />
                             <button
-                                onClick={() => handleAddToCart(product._id.$oid, product.nom)}
+                                onClick={() => handleAddToCart(product._id, product.nom)}
                             >
                                 Ajouter au panier
                             </button>
