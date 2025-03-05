@@ -1,10 +1,11 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const messageSchema = new mongoose.Schema({
-    nom: { type: String, required: true }, 
-    email: { type: String, required: true }, 
-    message: { type: String, required: true }, 
-    date: {type: Date,default: Date.now,required: true},
+    name: { type: String, required: true }, // Nom de l'expéditeur
+    email: { type: String, required: true, match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ }, // Email de l'expéditeur
+    message: { type: String, required: true }, // Contenu du message
+    timestamp: { type: Date, default: Date.now } // Horodatage
 });
 
-export default mongoose.model("message", messageSchema);
+const Message = mongoose.model('Message', messageSchema);
+export default Message;

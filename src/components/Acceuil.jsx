@@ -75,18 +75,49 @@ export const Acceuil = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData, 'YOUR_USER_ID')
-            .then((response) => {
-                console.log('SUCCESS!', response.status, response.text);
-                setSuccessMessage('Votre message a été envoyé avec succès !'); // Message de succès
-                setFormData({ name: '', email: '', message: '' }); // Réinitialiser le formulaire
-            }, (err) => {
-                console.error('FAILED...', err);
-                setSuccessMessage('Une erreur est survenue. Veuillez réessayer.'); // Message d'erreur
+    
+        // Vérifier que tous les champs sont remplis
+        if (!formData.name || !formData.email || !formData.message) {
+            alert("Veuillez remplir tous les champs du formulaire.");
+            return;
+        }
+    
+        try {
+            // Envoyer les données du formulaire à l'API
+            const response = await fetch("http://localhost:5000/message/createM", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    message: formData.message,
+                }),
             });
+    
+            if (!response.ok) {
+                throw new Error("Erreur lors de l'envoi du message.");
+            }
+    
+            const result = await response.json();
+            console.log("Réponse de l'API :", result);
+    
+            // Afficher un message de succès
+            setSuccessMessage("Votre message a été envoyé avec succès !");
+    
+            // Réinitialiser le formulaire
+            setFormData({
+                name: "",
+                email: "",
+                message: "",
+            });
+        } catch (error) {
+            console.error("Erreur :", error);
+            setSuccessMessage("Une erreur est survenue. Veuillez réessayer.");
+        }
     };
 
     if (loading) {
@@ -261,7 +292,7 @@ export const Acceuil = () => {
                             </tr>
                             <tr>
                                 <td><label htmlFor="message">Message - الرسالة :</label></td>
-                                <td><input type="texte" id="message" name="message" value={formData.message} onChange={handleChange} required /></td>
+                                <td><textarea id="message" name="message" value={formData.message} onChange={handleChange} required /></td>
                             </tr>
                         </table>
                         <button type="submit">Envoyer - إرسال</button>

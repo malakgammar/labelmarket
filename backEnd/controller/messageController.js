@@ -1,15 +1,16 @@
 import message from "../model/messageModel.js";
 
-export const create = async(req, res)=>{
+export const create = async (req, res) => {
+    console.log("Received data:", req.body); // Log les données reçues
     try {
-        const messageData = new message( req.body);
-
+        const messageData = new message(req.body);
         const savedmessage = await messageData.save();
-        res.status(200).json(savedmessage)
+        res.status(200).json(savedmessage);
     } catch (error) {
-        res.status(500).json({error : "Internal Server Error. "})
+        console.error("Error saving message:", error); // Log l'erreur
+        res.status(500).json({ error: "Internal Server Error." });
     }
-}
+};
 
 export const fetch = async (req, res) => {
     try {
