@@ -1,56 +1,155 @@
-.CategoriesPage {
-    width: 80%;
-    margin: 50px auto;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.065);
-}
-
-.productGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.productCard {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
+.category-filter {
+    margin-top: 80px;
     text-align: center;
-    background-color: #f9f9f9;
 }
 
-.productImage {
-    width: 100%; /* Ajustez la taille de l'image */
-    height: auto;
-    border-radius: 5px;
+.category-filter label {
+    font-size: 1rem;
+    margin-right: 0.5rem;
+    color: #333;
 }
 
-.productPrice {
-    font-size: 1.2em;
-    color: green;
-}
-
-.productDescription {
-    font-size: 0.9em;
-    color: #555;
-}
-
-.quantityInput {
-    width: 50px;
-    margin: 10px 0;
-}
-
-.addToCartButton {
-    background-color: darkcyan;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
+.category-filter select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: #fff;
     cursor: pointer;
+    transition: border-color 0.3s ease;
 }
 
-.addToCartButton:hover {
-    background-color: #007B7F;
+.category-filter select:focus {
+    border-color: #ff6b6b;
+    outline: none;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #333;
+    position: relative;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 4px;
+    background-color: #ff6b6b;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+/* Product List Container */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    padding: 2rem;
+}
+
+/* Product Card Styles */
+.product-card {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    width: calc(33.333% - 1.5rem);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.product-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.product-card .productPrice {
+    font-size: 1.25rem;
+    color: #ff6b6b;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Quantity Input Styles */
+.quantityInput {
+    width: 60px;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.quantityInput:focus {
+    border-color: #ff6b6b;
+    outline: none;
+}
+
+/* Add to Cart Button Styles */
+.product-card button {
+    background-color: #ff6b6b;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.product-card button:hover {
+    background-color: #ff4c4c;
+    transform: translateY(-5px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .product-card {
+        width: calc(50% - 1.5rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .product-card {
+        width: 100%;
+    }
+}
+
+/* No Products Found Message */
+.no-products {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 2rem;
 }

@@ -27,14 +27,13 @@ export const Header = () => {
                     <img src="/logo.png" alt="Logo" />
                 </Link>
             </div>
-            <h1>LabelMarket</h1>
             <button className="menu-toggle" onClick={toggleMenu}>
                 {isMenuOpen ? '✖' : '☰'}
             </button>
             <nav className={`nav ${isMenuOpen ? 'open' : ''}`}>
                 <ul>
-                    <li><Link to="/produits">Produits - منتجات</Link></li>
-                    <li><a href="#apropos">À Propos - حول</a></li>
+                    <li><Link to="/product">Produits - منتجات</Link></li>
+                    <li><a href="#coupons">À Propos - حول</a></li>
                     <li><a href="#contact">Contact - تواصل معنا</a></li>
                     <li><Link to="/authentification">Profil - الملف الشخصي</Link></li>
                 </ul>
@@ -65,7 +64,7 @@ export const Acceuil = () => {
     const handleProductClick = () => {
         setLoading(true);
         setTimeout(() => {
-            navigate('/produits');
+            navigate('/product');
         }, 500);
     };
 
@@ -139,7 +138,7 @@ export const Acceuil = () => {
                     <p>استخدم الرمز <strong>GROSS20</strong> للحصول على خصم 20% على طلبك الأول بالجملة!</p>
                 </section>
 
-                <section id="produits" className="apropos" data-aos="fade-up">
+                {/* <section id="produits" className="apropos" data-aos="fade-up">
                     <h3>Nos Produits - منتجاتنا</h3>
                     <div className="mission-box">
                         {produits.map(produit => (
@@ -163,32 +162,32 @@ export const Acceuil = () => {
                             </div>
                         ))}
                     </div>
-                </section>
+                </section> */}
 
                 <section id="historique" className="historique" data-aos="fade-up">
                     <h2>Historique / التاريخ</h2>
-                    <p>
+                    <p><h5>
                         Fondé en 2000, LabelMarket a commencé comme une petite plateforme de vente de produits locaux. 
                         Grâce à notre engagement envers la qualité et le service client, nous avons rapidement grandi pour devenir 
                         l'un des principaux acteurs du commerce en ligne.
                         <br />
                         تأسست LabelMarket في عام 2000، وبدأت كمنصة صغيرة لبيع المنتجات المحلية. بفضل التزامنا بالجودة وخدمة العملاء، نما بسرعة لنصبح أحد اللاعبين الرئيسيين في التجارة الإلكترونية.
-                    </p>
+                    </h5></p>
                 </section>
 
                 <section className="provinces">
                     <h2>Nos Provinces / مقاطعاتنا</h2>
                     <div className="province-boxes">
                         {[
-                            { name: 'Casablanca-Settat', location: 'Centre économique du Maroc, avec une grande diversité culturelle.' },
-                            { name: 'Rabat-Salé-Kénitra', location: 'Capitale politique et administrative du Maroc.' },
-                            { name: 'Marrakech-Safi', location: 'Ville historique connue pour ses souks et sa médina.' },
-                            { name: 'Fès-Meknès', location: 'Célèbre pour ses anciens sites historiques et ses artisans.' },
-                            { name: 'Tanger-Tétouan-Al Hoceima', location: 'Port méditerranéen avec une riche histoire maritime.' }
+                            { name: 'Casablanca-Settat', location: 'Quartier Beausite, Voie AS-31, Casablanca 20250، المغرب' },
+                            { name: 'Rabat-Salé-Kénitra', location: 'Hay Ryad, Rabat' },
+                            { name: 'Marrakech-Safi', location: 'Rez de chausse Al Fiddia lotissement 1 et lotissement 2 Avenue, Agadir 80060' },
+                            { name: 'Fès-Meknès', location: 'N 157 Rue 17 Hay Sidi Hadi El Hadi Zouagha, Fes, Fes-meknes 30000' },
+                            { name: 'Tanger-Tétouan-Al Hoceima', location: 'Rue bilal res arkhabil, 90000 Tangier' }
                         ].map((province) => (
                             <div className="province-box" key={province.name} data-aos="zoom-in">
                                 <h3>{province.name}</h3>
-                                <p>Localisation : {province.location}</p>
+                                <p><strong>Localisation : </strong>{province.location}</p>
                             </div>
                         ))}
                     </div>
@@ -249,20 +248,22 @@ export const Acceuil = () => {
 
                 <section id="contact" className="contact" data-aos="fade-up">
                     <h2>Contactez-nous - تواصل معنا</h2>
-                    <p>Pour toute question, n'hésitez pas à nous contacter :</p>
+                    <p>Pour toute question, n'hésitez pas à nous contacter : إذا كان لديك أي أسئلة ، فلا تتردد في التواصل معنا</p>
                     <form onSubmit={handleSubmit}>
-                        <div>
-                            <label htmlFor="name">Nom - الاسم :</label>
-                            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
-                        </div>
-                        <div>
-                            <label htmlFor="email">Email - البريد الإلكتروني :</label>
-                            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
-                        </div>
-                        <div>
-                            <label htmlFor="message">Message - الرسالة :</label>
-                            <textarea id="message" name="message" value={formData.message} onChange={handleChange} required></textarea>
-                        </div>
+                        <table>
+                            <tr>
+                                <td><label htmlFor="name">Nom - الاسم :</label></td>
+                                <td><input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required /></td>
+                            </tr>
+                            <tr>
+                                <td><label htmlFor="email">Email - البريد الإلكتروني :</label></td>
+                                <td><input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required /></td>
+                            </tr>
+                            <tr>
+                                <td><label htmlFor="message">Message - الرسالة :</label></td>
+                                <td><input type="texte" id="message" name="message" value={formData.message} onChange={handleChange} required /></td>
+                            </tr>
+                        </table>
                         <button type="submit">Envoyer - إرسال</button>
                     </form>
                     {successMessage && <p className="success-message">{successMessage}</p>}

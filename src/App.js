@@ -8,6 +8,7 @@ import Register from './components/Register';
 import { Header, Acceuil , Footer} from './components/Acceuil';
 import Profile from './components/Profile';
 import { AuthProvider } from './components/AuthContext';
+import Panier from './components/Panier';
 const App = () => {
     return (
       <AuthProvider>
@@ -16,10 +17,11 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Acceuil/>} />
             <Route path="/authentification" element={<AuthCard/>} />
-            <Route path="/produits" element={<CategoriesPage/>} />
+            <Route path="/product" element={<CategoriesPage/>} />
             <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register/>} />
             <Route path="/profile" element={<Profile />} /> 
+            <Route path="/panier" element={<Panier/>} /> 
             </Routes>
             <Footer/>
         </Router>

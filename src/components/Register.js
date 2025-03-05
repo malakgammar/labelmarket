@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Importer useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const { setUser } = useAuth();
@@ -11,7 +11,7 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
-    const navigate = useNavigate(); // Utilise useNavigate
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -28,8 +28,8 @@ const Register = () => {
             const response = await axios.post('http://localhost:5000/auth/register', data);
             const { token, user } = response.data;
             localStorage.setItem('token', token);
-            setUser(user); 
-            navigate('/profile'); // Redirige vers le tableau de bord
+            setUser(user);
+            navigate('/profile');
         } catch (error) {
             setError(error.response?.data?.message || 'Erreur lors de l\'inscription.');
             console.error('Erreur lors de l\'inscription:', error);

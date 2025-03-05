@@ -1,31 +1,7 @@
 @import '~slick-carousel/slick/slick.css';
 @import '~slick-carousel/slick/slick-theme.css';
 
-body {
-  font-family: Arial, sans-serif;
-  margin:50;
-  padding: 60;
-  line-height: 1.6;
-  background-color: #f4f4f4;
-  padding-top: 70px; /* Ajoute un rembourrage pour éviter que le contenu ne soit masqué par l'en-tête */
-}
 
-.header {
-  position: fixed; /* Fixe l'en-tête en haut de la page */
-  top: 0; /* Positionne l'en-tête en haut */
-  width: 100%; /* Prend toute la largeur de la fenêtre */
-  background: white; /* Couleur de fond blanche */
-  color: #000000; /* Couleur du texte en noir */
-  display: flex; /* Utilise le Flexbox pour l'alignement */
-  align-items: center; /* Aligne verticalement les éléments */
-  justify-content: space-between; /* Espace entre les éléments */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour un effet de profondeur */
-  z-index: 1000; /* Assure que l'en-tête est au-dessus des autres éléments */
-}
-
-.logo img {
-  height: 90px;
-}
 
 .nav {
   display: flex;
@@ -36,7 +12,7 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 15px; /* Espacement entre les éléments du menu */
+  gap: 15px;
 }
 
 .nav li {
@@ -44,9 +20,6 @@ body {
   transition: background-color 0.3s;
 }
 
-.nav li:hover {
-  background-color: #f0f0f0; /* Couleur de fond lors du survol */
-}
 
 .nav a {
   color: rgb(227, 6, 19);
@@ -60,7 +33,7 @@ body {
 }
 
 .menu-toggle {
-  display: none; /* Masqué par défaut */
+  display: none;
   font-size: 24px;
   background: none;
   border: none;
@@ -69,30 +42,30 @@ body {
 
 @media (max-width: 768px) {
   .nav {
-    display: flex; /* Affiche le menu en mode colonne */
+    display: flex;
     flex-direction: column;
     position: absolute;
-    top: 70px; /* Ajustez selon votre en-tête */
+    top: 70px;
     right: 0;
     background-color: #fff;
     width: 100%;
-    max-height: 0; /* Masqué par défaut */
-    overflow: hidden; /* Masque le contenu débordant */
-    transition: max-height 0.3s ease; /* Animation de transition */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
   }
 
   .nav.open {
-    max-height: 300px; /* Ajustez selon vos besoins */
-    display: flex; /* Affiche le menu quand 'open' est vrai */
+    max-height: 300px;
+    display: flex;
   }
 
   .menu-toggle {
-    display: block; /* Affiché sur petits écrans */
+    display: block;
   }
 
   .nav li {
-    margin: 10px 0; /* Espacement vertical entre les éléments du menu */
-    padding: 10px 15px; /* Espacement intérieur pour un meilleur clic */
+    margin: 10px 0;
+    padding: 10px 15px;
   }
 }
 
@@ -101,33 +74,32 @@ body {
 }
 
 .carousel {
+  margin: 0 auto;
   position: relative;
-  width: 100%; /* Prendre toute la largeur disponible */
-  max-width: 1200px; /* Largeur maximale pour le carrousel */
-  margin: 0 auto; /* Centrer le carrousel */
-  border: 2px solid #ccc; /* Bordure autour de la boîte */
-  border-radius: 8px; /* Coins arrondis */
-  overflow: hidden; /* Masquer les débordements */
+  width: 100%;
+  max-width: 1200px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .carousel img {
-  width: 100%; /* Prendre toute la largeur du carrousel */
-  height: auto; /* Hauteur automatique pour garder le ratio */
-  object-fit: cover; /* Couvrir le conteneur sans déformer l'image */
+  margin-top:60px;
+  width: 100%;
+  height: auto;
 }
 
-/* Styles pour les points d'indication */
 .slick-dots {
-  bottom: 10px; /* Position des points */
+  bottom: 10px;
 }
 
 .slick-dots li button:before {
-  font-size: 12px; /* Taille des points */
-  color: #fff; /* Couleur des points */
+  font-size: 12px;
+  color: #fff;
 }
 
 .slick-dots li.slick-active button:before {
-  color: #ffffff; /* Couleur du point actif */
+  color: #ffffff;
 }
 
 .hero {
@@ -145,11 +117,12 @@ body {
 }
 
 .coupons {
-  background: #0080ffaf;
+  background: #6db4fb46;
   padding: 10px;
   text-align: center;
   margin-bottom: 20px;
 }
+
 .produits, .promotions, .publicite, .historique, .missions, .temoignages, .valeurs {
   margin: 20px 0;
   background: #fff;
@@ -160,16 +133,16 @@ body {
 
 .produit-list, .promo-list, .pub-list {
   display: flex;
-  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne */
-  gap: 15px; /* Espacement entre les éléments */
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .produit-card, .promo-card, .pub-card {
-  flex: 1 1 calc(33.33% - 15px); /* Ajuste à trois boîtes par ligne avec un espacement */
+  flex: 1 1 calc(33.33% - 15px);
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px;
-  background: #f9f9f9; /* Style des boîtes */
+  background: #f9f9f9;
 }
 
 .province-box, .mission-box, .valeur-box {
@@ -178,23 +151,24 @@ body {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   background: #f9f9f9;
-  display: inline-block; /* Permet aux éléments de s'aligner horizontalement */
-  height: 200px; /* Hauteur fixe de 200px */
+  display: inline-block;
+  height: 270px;
   width: 40%;
 }
 
 .temoignage-box {
-  border: 1px solid #e0e0e0; /* Bordure grise claire */
-  border-radius: 8px; /* Coins arrondis */
-  padding: 15px; /* Espacement interne de 15px */
-  margin: 10px 0; /* Espacement externe de 10px en haut et en bas */
-  background: #f9f9f9; /* Couleur de fond très claire */
-  display: flex; /* Permet aux éléments de s'aligner horizontalement */
-  height: 200px; /* Hauteur fixe de 200px */
-  width: 40%; /* Largeur de 40% de l'élément parent */
-  gap: 20px; /* Espace de 20px entre les éléments */
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px 0;
+  background: #f9f9f9;
+  display: flex;
+  height: 270px;
+  width: 40%;
+  gap: 20px;
   flex-wrap: wrap;
 }
+
 .profile {
   display: flex;
   align-items: center;
@@ -215,9 +189,10 @@ body {
 
 @media (max-width: 768px) {
   .produit-card, .promo-card, .pub-card {
-    flex: 1 1 100%; /* Empile sur les petits écrans */
+    flex: 1 1 100%;
   }
 }
+
 .footer {
   background: #33333314;
   color: #000000;
@@ -265,4 +240,380 @@ iframe {
   color: red;
   font-weight: bold;
   margin-top: 10px;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f4f4f4;
+  color: #333;
+  overflow-x: hidden;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+  color: inherit;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #000000;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.header.scrolled {
+  background-color: rgba(51, 51, 51, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.logo img {
+  height: 70px;
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.1);
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.menu-toggle:hover {
+  transform: rotate(90deg);
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.nav ul li {
+  margin-left: 1.5rem;
+  position: relative;
+}
+
+.nav ul li a {
+  color: #000000;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav ul li a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #ff6b6b;
+  bottom: -5px;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.nav ul li a:hover::after {
+  width: 100%;
+}
+
+.nav ul li a:hover {
+  color: #ff6b6b;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+      display: block;
+  }
+
+  .nav {
+      display: none;
+      flex-direction: column;
+      background-color: rgba(255, 255, 255, 0.95);
+      position: absolute;
+      top: 60px;
+      right: 0;
+      width: 100%;
+      text-align: center;
+      backdrop-filter: blur(10px);
+  }
+
+  .nav.open {
+      display: flex;
+  }
+
+  .nav ul li {
+      margin: 1rem 0;
+  }
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.carousel img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.slick-dots {
+  bottom: 10px;
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+  color: #fff;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #ffffff;
+}
+
+.main {
+  padding: 2rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 6rem 0;
+  background: linear-gradient(135deg, #ff6b6b, #ff4c4c);
+  color: #fff;
+  margin-bottom: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  animation: slideIn 1s ease-in-out;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  animation: slideIn 1.2s ease-in-out;
+}
+
+.cta-button {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #555;
+  transform: translateY(-5px);
+}
+
+section {
+  margin-bottom: 4rem;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+section:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+h2, h3 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 2.5rem;
+  position: relative;
+}
+
+h2::after, h3::after {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 4px;
+  background-color: #ff6b6b;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.province-boxes, .mission-boxes, .valeur-boxes, .temoignage-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.province-box, .mission-box, .valeur-box, .temoignage-box {
+  flex: 1 1 calc(50% - 1.5rem);
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.province-box:hover, .mission-box:hover, .valeur-box:hover, .temoignage-box:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 1rem;
+  border: 3px solid #ff6b6b;
+}
+
+.stars {
+  color: #ffd700;
+  margin-bottom: 1rem;
+}
+
+.contact {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.contact form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact form label {
+  font-weight: bold;
+  margin-left: 100px;
+}
+
+.contact form input {
+  width: 80%;
+  margin-right: 100px;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.contact form input:focus {
+  border-color: #ff6b6b;
+  outline: none;
+}
+
+.contact form button {
+  background-color: #ff6b6b;
+  color: #fff;
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.contact form button:hover {
+  background-color: #ff4c4c;
+  transform: translateY(-5px);
+}
+
+.success-message {
+  color: #28a745;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.map-container {
+  margin-top: 2rem;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.footer {
+  text-align: center;
+  padding: 2rem;
+  background-color: #4342427a;
+  color: #000000;
+  margin-top: 4rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+[data-aos] {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+[data-aos="fade-up"] {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+[data-aos="fade-up"].aos-animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-aos="zoom-in"] {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+[data-aos="zoom-in"].aos-animate {
+  opacity: 1;
+  transform: scale(1);
 }

@@ -1,37 +1,37 @@
 import React, { useState } from 'react';
-import { useAuth } from './AuthContext';
-import Loader from './Loader';
+import axios from 'axios';
+import { useAuth } from './AuthContext'; // Assurez-vous d'importer correctement le contexte
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const { login, user, error } = useAuth();
+    const { setUser, setError, error } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
 
-        await login(email, password); // Appelle la fonction login
+        try {
+            const response = await axios.post('http://localhost:5000/auth/login', {
+                email,
+                password,
+            });
 
-        // Vérifie si l'utilisateur est connecté après la promesse
-        if (user) {
-            navigate('/profile'); // Redirige vers la page de profil si l'utilisateur est connecté
+            const { token, user } = response.data;
+            localStorage.setItem('token', token); // Stocke le token
+            setUser(user); // Met à jour l'état de l'utilisateur
+            navigate('/profile'); // Redirige vers le profil
+        } catch (error) {
+            setError(error.response?.data?.message || 'Erreur lors de la connexion.'); // Utilise setError ici
+            console.error('Erreur lors de la connexion:', error);
         }
-
-        setLoading(false);
     };
-
-    if (loading) {
-        return <Loader />;
-    }
 
     return (
         <form onSubmit={handleSubmit} className="mb-3">
             <h3>Connexion / تسجيل الدخول</h3>
-            {error && <p className="text-danger">{error}</p>}
+            {error && <p className="text-danger">{error}</p>} 
             <div className="mb-3">
                 <label className="form-label">Email / البريد الإلكتروني</label>
                 <input
