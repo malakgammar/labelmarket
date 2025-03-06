@@ -1,95 +1,75 @@
-.profile {
-    padding: 20px;
-    max-width: 800px;
-    margin:50% auto;
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
     background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 150px auto 2rem auto;}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
-h2 {
+
+.profile-header h1 {
+    font-size: 2rem;
     color: #333;
 }
 
-.profile-info,
-.profile-orders {
-    margin-bottom: 20px;
-}
-
-.profile-orders table {
+.profile-info {
     width: 100%;
-    border-collapse: collapse;
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.profile-orders th, .profile-orders td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+.profile-info p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #555;
 }
 
-.profile-orders th {
-    background-color: #f2f2f2;
+.profile-info strong {
+    color: #333;
 }
 
-
-.profile-actions {
-    display: flex;
-    justify-content: center; /* Centrer les éléments horizontalement */
-    align-items: center; /* Centrer les éléments verticalement */
-    flex-wrap: wrap; /* Permettre à la ligne de se plier si l'espace est insuffisant */
-}
-
-.action-button {
-    margin: 10px; /* Ajoute une marge autour des boutons */
-    padding: 10px;
-    background-color: #007BFF;
-    color: white;
-    text-decoration: none;
-    text-align: center;
+.profile-info button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
     border-radius: 5px;
-    flex: 1 1 auto; /* Permet aux boutons de s'ajuster à l'espace disponible */
-    min-width: 150px; /* Largeur minimale pour les boutons */
+    cursor: pointer;
+    margin-top: 1rem;
 }
 
-.action-button:hover {
+.profile-info button:hover {
     background-color: #0056b3;
 }
 
-.order-history {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.order-history th,
-.order-history td {
-    border: 1px solid #ddd;
-    padding: 8px;
+.thank-you-message {
+    margin-top: 2rem;
     text-align: center;
+    font-style: italic;
+    color: #666;
 }
 
-.order-history th {
-    background-color: #f2f2f2;
-}
-
-.order-history button {
-    margin: 5px;
-    padding: 5px 10px;
-    background-color: #28a745; /* Couleur pour le bouton de modification */
-    color: white;
-    border: none;
-    border-radius: 4px;
+.cart-icon {
+    position: absolute;
+    top:150px;
+    right: 20px;
     cursor: pointer;
+    color: #ff6b6b;
+    transition: color 0.3s ease;
 }
 
-.order-history button:hover {
-    background-color: #218838; /* Couleur au survol */
-}
-
-.order-history button:last-child {
-    background-color: #dc3545; /* Couleur pour le bouton d'annulation */
-}
-
-.order-history button:last-child:hover {
-    background-color: #c82333; /* Couleur au survol */
+.cart-icon:hover {
+    color: #ff4c4c;
 }

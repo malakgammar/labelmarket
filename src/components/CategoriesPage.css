@@ -61,6 +61,9 @@ h1::after {
     padding: 2rem;
 }
 
+.categories-page {
+    margin-top: 120px; /* Ajustez cette valeur en fonction de la hauteur de votre header */
+}
 /* Product Card Styles */
 .product-card {
     background-color: #fff;
@@ -152,4 +155,64 @@ h1::after {
     font-size: 1.2rem;
     color: #666;
     margin-top: 2rem;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-between; /* Aligne la recherche à gauche et le filtre à droite */
+    align-items: center; /* Centre verticalement */
+    margin-bottom: 2rem;
+    padding: 0 2rem; /* Ajoute un peu d'espace sur les côtés */
+}
+
+/* Styles pour la recherche */
+.search-filter {
+    display: flex;
+    align-items: center; /* Centre l'icône et le champ de recherche */
+    gap: 0.5rem; /* Espace entre l'icône et le champ */
+}
+
+.search-filter input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+    width: 250px; /* Ajustez la largeur selon vos besoins */
+    transition: border-color 0.3s ease;
+}
+
+.search-filter input:focus {
+    border-color: #ff6b6b;
+    outline: none;
+}
+
+.search-icon {
+    color: #666; /* Couleur de l'icône */
+}
+
+/* Styles pour le filtre de catégorie */
+.category-filter {
+    margin-top: 0; /* Supprime la marge supérieure pour l'alignement */
+    text-align: right; /* Aligne le filtre à droite */
+}
+
+.category-filter label {
+    font-size: 1rem;
+    margin-right: 0.5rem;
+    color: #333;
+}
+
+.category-filter select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.category-filter select:focus {
+    border-color: #ff6b6b;
+    outline: none;
 }

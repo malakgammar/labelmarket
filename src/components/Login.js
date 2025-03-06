@@ -1,31 +1,17 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useAuth } from './AuthContext'; // Assurez-vous d'importer correctement le contexte
+import { useAuth } from './AuthContext'; // Importer le contexte d'authentification
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const { setUser, setError, error } = useAuth();
+    const { login, error } = useAuth(); // Utiliser le contexte
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        try {
-            const response = await axios.post('http://localhost:5000/auth/login', {
-                email,
-                password,
-            });
-
-            const { token, user } = response.data;
-            localStorage.setItem('token', token); // Stocke le token
-            setUser(user); // Met à jour l'état de l'utilisateur
-            navigate('/profile'); // Redirige vers le profil
-        } catch (error) {
-            setError(error.response?.data?.message || 'Erreur lors de la connexion.'); // Utilise setError ici
-            console.error('Erreur lors de la connexion:', error);
-        }
+        await login(email, password); // Appeler la fonction login du contexte
+        navigate('/profile'); // Rediriger vers le profil après la connexion
     };
 
     return (

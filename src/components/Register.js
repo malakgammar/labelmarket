@@ -1,39 +1,20 @@
 import React, { useState } from 'react';
-import { useAuth } from './AuthContext';
-import axios from 'axios';
+import { useAuth } from './AuthContext'; // Importer le contexte d'authentification
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-    const { setUser } = useAuth();
+    const { register, error } = useAuth(); // Utiliser le contexte
     const [cin, setCin] = useState('');
     const [nom, setNom] = useState('');
     const [telephone, setTelephone] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        const data = {
-            cin,
-            nom,
-            telephone,
-            email,
-            password,
-        };
-
-        try {
-            const response = await axios.post('http://localhost:5000/auth/register', data);
-            const { token, user } = response.data;
-            localStorage.setItem('token', token);
-            setUser(user);
-            navigate('/profile');
-        } catch (error) {
-            setError(error.response?.data?.message || 'Erreur lors de l\'inscription.');
-            console.error('Erreur lors de l\'inscription:', error);
-        }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await register(cin, nom, telephone, email, password); // Appeler la fonction register du contexte
+        navigate('/profile'); // Rediriger vers le profil après l'inscription
     };
 
     return (

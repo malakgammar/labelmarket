@@ -2,10 +2,10 @@ import express from 'express';
 import authenticate from '../middleware/auth.js';
 import panierController from '../controller/panierController.js';
 
-const router = express.Router();
+const panierRoute = express.Router();
 
-router.post('/ajouter', authenticate, panierController.ajouterAuPanier);
-router.get('/', authenticate, panierController.obtenirPanier);
-router.delete('/supprimer/:idproduit', authenticate, panierController.supprimerDuPanier);
+panierRoute.post('/ajouter', authenticate, panierController.ajouterAuPanier);
+panierRoute.get('/', authenticate, panierController.obtenirPanier);
+panierRoute.delete('/supprimer/:idproduit', authenticate, panierController.supprimerDuPanier);
 
-export default router;
+export default panierRoute;

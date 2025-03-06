@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "./CategoriesPage.css"; // Import du fichier CSS
+import "./CategoriesPage.css"; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const CategoriesPage = () => {
     const [products, setProducts] = useState([]); // État pour stocker les produits
     const [categories, setCategories] = useState([]); // État pour stocker les catégories
     const [selectedCategory, setSelectedCategory] = useState(""); // État pour la catégorie sélectionnée
+    const [searchTerm, setSearchTerm] = useState(""); // État pour le terme de recherche
     const [quantities, setQuantities] = useState({}); // État pour gérer les quantités
     const [loading, setLoading] = useState(true); // État pour gérer le chargement
     const [error, setError] = useState(null); // État pour gérer les erreurs
@@ -98,10 +101,12 @@ const CategoriesPage = () => {
         }
     };
 
-    // Fonction pour filtrer les produits par catégorie
-    const filteredProducts = selectedCategory
-        ? products.filter((product) => product.idCategorie === selectedCategory)
-        : products;
+    // Fonction pour filtrer les produits par catégorie et par nom
+    const filteredProducts = products.filter((product) => {
+        const matchesCategory = selectedCategory ? product.idCategorie === selectedCategory : true;
+        const matchesSearch = product.nom.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesCategory && matchesSearch;
+    });
 
     // Affichage en fonction de l'état de chargement et des erreurs
     if (loading) {
@@ -116,20 +121,31 @@ const CategoriesPage = () => {
         <div className="categories-page">
             <h1>Liste des Produits</h1>
 
-            {/* Filtre par catégorie */}
-            <div className="category-filter">
-                <select
-                    id="category"
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                >
-                    <option value="">Toutes les catégories</option>
-                    {categories.map((category) => (
-                        <option key={category._id} value={category._id}>
-                            {category.nom}
-                        </option>
-                    ))}
-                </select>
+            <div className="filters">
+                <div className="search-filter">
+                    <FontAwesomeIcon icon={faSearch} className="search-icon" />
+                    <input
+                        type="text"
+                        placeholder="Rechercher..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+
+                <div className="category-filter">
+                    <select
+                        id="category"
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                    >
+                        <option value="">Toutes les catégories</option>
+                        {categories.map((category) => (
+                            <option key={category._id} value={category._id}>
+                                {category.nom}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
 
             {/* Liste des produits */}

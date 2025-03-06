@@ -292,7 +292,7 @@ export const Acceuil = () => {
                             </tr>
                             <tr>
                                 <td><label htmlFor="message">Message - الرسالة :</label></td>
-                                <td><textarea id="message" name="message" value={formData.message} onChange={handleChange} required /></td>
+                                <td><input type="text" id="message" name="message" value={formData.message} onChange={handleChange} required /></td>
                             </tr>
                         </table>
                         <button type="submit">Envoyer - إرسال</button>
