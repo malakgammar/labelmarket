@@ -23,6 +23,7 @@
     border-color: #ff6b6b;
     outline: none;
 }
+
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
@@ -49,10 +50,8 @@ h1::after {
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    border-radius: 2px;
 }
 
-/* Product List Container */
 .product-list {
     display: flex;
     flex-wrap: wrap;
@@ -62,9 +61,9 @@ h1::after {
 }
 
 .categories-page {
-    margin-top: 120px; /* Ajustez cette valeur en fonction de la hauteur de votre header */
+    margin-top: 120px;
 }
-/* Product Card Styles */
+
 .product-card {
     background-color: #fff;
     border-radius: 15px;
@@ -101,7 +100,6 @@ h1::after {
     margin-bottom: 1rem;
 }
 
-/* Quantity Input Styles */
 .quantityInput {
     width: 60px;
     padding: 0.5rem;
@@ -118,7 +116,6 @@ h1::after {
     outline: none;
 }
 
-/* Add to Cart Button Styles */
 .product-card button {
     background-color: #ff6b6b;
     color: #fff;
@@ -136,7 +133,6 @@ h1::after {
     transform: translateY(-5px);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .product-card {
         width: calc(50% - 1.5rem);
@@ -149,7 +145,6 @@ h1::after {
     }
 }
 
-/* No Products Found Message */
 .no-products {
     text-align: center;
     font-size: 1.2rem;
@@ -159,17 +154,16 @@ h1::after {
 
 .filters {
     display: flex;
-    justify-content: space-between; /* Aligne la recherche à gauche et le filtre à droite */
-    align-items: center; /* Centre verticalement */
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 2rem;
-    padding: 0 2rem; /* Ajoute un peu d'espace sur les côtés */
+    padding: 0 2rem;
 }
 
-/* Styles pour la recherche */
 .search-filter {
     display: flex;
-    align-items: center; /* Centre l'icône et le champ de recherche */
-    gap: 0.5rem; /* Espace entre l'icône et le champ */
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .search-filter input {
@@ -177,7 +171,7 @@ h1::after {
     border: 1px solid #ccc;
     border-radius: 10px;
     font-size: 1rem;
-    width: 250px; /* Ajustez la largeur selon vos besoins */
+    width: 250px;
     transition: border-color 0.3s ease;
 }
 
@@ -187,13 +181,12 @@ h1::after {
 }
 
 .search-icon {
-    color: #666; /* Couleur de l'icône */
+    color: #666;
 }
 
-/* Styles pour le filtre de catégorie */
 .category-filter {
-    margin-top: 0; /* Supprime la marge supérieure pour l'alignement */
-    text-align: right; /* Aligne le filtre à droite */
+    margin-top: 0;
+    text-align: right;
 }
 
 .category-filter label {

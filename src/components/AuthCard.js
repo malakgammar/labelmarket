@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import Register from './Register'; // Importer le composant Register
-import Login from './Login'; // Importer le composant Login
-import './AuthCard.css'; // Importer le fichier CSS
+import Register from './Register'; 
+import Login from './Login'; 
+import './AuthCard.css'; 
 
 const AuthCard = () => {
-    const [isLogin, setIsLogin] = useState(true); // État pour basculer entre Login et Register
+    const [isLogin, setIsLogin] = useState(true); 
 
-    // Fonction pour basculer entre Login et Register
     const toggleForm = () => {
         setIsLogin(!isLogin);
     };
@@ -17,9 +16,9 @@ const AuthCard = () => {
                 {isLogin ? 'Créer un compte - إنشاء حساب' : 'Déjà un compte - لدي حساب'}
             </button>
             {isLogin ? (
-                <Login /> // Afficher le formulaire de connexion
+                <Login /> 
             ) : (
-                <Register /> // Afficher le formulaire d'inscription
+                <Register /> 
             )}
         </div>
     );

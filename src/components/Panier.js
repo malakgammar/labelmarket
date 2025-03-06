@@ -10,7 +10,7 @@ const Panier = () => {
             try {
                 const response = await axios.get('http://localhost:5000/panier', {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}` // Assurez-vous d'ajuster le token selon votre gestion
+                        Authorization: `Bearer ${localStorage.getItem('token')}` 
                     }
                 });
                 setPanier(response.data.panier);

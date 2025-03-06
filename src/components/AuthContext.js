@@ -8,23 +8,27 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null); // État de l'utilisateur
-    const [error, setError] = useState(null); // État des erreurs
+    const [user, setUser] = useState(null);
+    const [error, setError] = useState(null);
+    const [updatedUser, setUpdatedUser] = useState({
+        cin: user?.cin || '',
+        nom: user?.nom || '',
+        telephone: user?.telephone || '',
+        email: user?.email || '',
+    });
 
-    // Fonction pour se connecter
     const login = async (email, password) => {
         try {
             const response = await axios.post('http://localhost:5000/auth/login', { email, password });
             const { token, user } = response.data;
-            localStorage.setItem('token', token); // Stocker le token
-            setUser(user); // Mettre à jour l'utilisateur
-            setError(null); // Réinitialiser les erreurs
+            localStorage.setItem('token', token);
+            setUser(user);
+            setError(null);
         } catch (err) {
-            setError(err.response?.data?.message || 'Erreur lors de la connexion.'); // Gérer les erreurs
+            setError(err.response?.data?.message || 'Erreur lors de la connexion.');
         }
     };
 
-    // Fonction pour s'inscrire
     const register = async (cin, nom, telephone, email, password) => {
         try {
             const response = await axios.post('http://localhost:5000/auth/register', {
@@ -35,22 +39,21 @@ export const AuthProvider = ({ children }) => {
                 password,
             });
             const { token, user } = response.data;
-            localStorage.setItem('token', token); // Stocker le token
-            setUser(user); // Mettre à jour l'utilisateur
-            setError(null); // Réinitialiser les erreurs
+            localStorage.setItem('token', token);
+            setUser(user);
+            setError(null);
         } catch (err) {
-            setError(err.response?.data?.message || 'Erreur lors de l\'inscription.'); // Gérer les erreurs
+            setError(err.response?.data?.message || 'Erreur lors de l\'inscription.');
         }
     };
 
-    // Fonction pour se déconnecter
     const logout = () => {
-        localStorage.removeItem('token'); // Supprimer le token
-        setUser(null); // Réinitialiser l'utilisateur
+        localStorage.removeItem('token');
+        setUser(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, setUser, login, register, logout, error, setError }}>
+        <AuthContext.Provider value={{ user, setUser, login, register, logout, error, setError, updatedUser, setUpdatedUser }}>
             {children}
         </AuthContext.Provider>
     );

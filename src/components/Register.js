@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useAuth } from './AuthContext'; // Importer le contexte d'authentification
+import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-    const { register, error } = useAuth(); // Utiliser le contexte
+    const { register, error } = useAuth();
     const [cin, setCin] = useState('');
     const [nom, setNom] = useState('');
     const [telephone, setTelephone] = useState('');
@@ -13,8 +13,8 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await register(cin, nom, telephone, email, password); // Appeler la fonction register du contexte
-        navigate('/profile'); // Rediriger vers le profil après l'inscription
+        await register(cin, nom, telephone, email, password);
+        navigate('/profile');
     };
 
     return (

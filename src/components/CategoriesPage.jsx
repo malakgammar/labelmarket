@@ -4,16 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const CategoriesPage = () => {
-    const [products, setProducts] = useState([]); // État pour stocker les produits
-    const [categories, setCategories] = useState([]); // État pour stocker les catégories
-    const [selectedCategory, setSelectedCategory] = useState(""); // État pour la catégorie sélectionnée
-    const [searchTerm, setSearchTerm] = useState(""); // État pour le terme de recherche
-    const [quantities, setQuantities] = useState({}); // État pour gérer les quantités
-    const [loading, setLoading] = useState(true); // État pour gérer le chargement
-    const [error, setError] = useState(null); // État pour gérer les erreurs
-    const userId = "12345"; // Remplace par l'ID de l'utilisateur connecté
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
+    const [quantities, setQuantities] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const userId = "12345";
 
-    // Fonction pour récupérer les produits depuis l'API
     const fetchProducts = async () => {
         try {
             const response = await fetch("http://localhost:5000/product/getallproducts");
@@ -21,23 +20,21 @@ const CategoriesPage = () => {
                 throw new Error("Erreur lors de la récupération des produits");
             }
             const data = await response.json();
-            setProducts(data); // Mettre à jour l'état des produits
+            setProducts(data);
 
-            // Initialiser les quantités
             const initialQuantities = data.reduce((acc, product) => {
-                acc[product._id] = 1; // Utiliser product._id pour l'ID
+                acc[product._id] = 1;
                 return acc;
             }, {});
             setQuantities(initialQuantities);
         } catch (error) {
             console.error("Erreur :", error);
-            setError(error.message); // Mettre à jour l'état d'erreur
+            setError(error.message);
         } finally {
-            setLoading(false); // Arrêter le chargement
+            setLoading(false);
         }
     };
 
-    // Fonction pour récupérer les catégories depuis l'API
     const fetchCategories = async () => {
         try {
             const response = await fetch("http://localhost:5000/category/getallcategories");
@@ -45,20 +42,18 @@ const CategoriesPage = () => {
                 throw new Error("Erreur lors de la récupération des catégories");
             }
             const data = await response.json();
-            setCategories(data); // Mettre à jour l'état des catégories
+            setCategories(data);
         } catch (error) {
             console.error("Erreur :", error);
-            setError(error.message); // Mettre à jour l'état d'erreur
+            setError(error.message);
         }
     };
 
-    // Utilisation de useEffect pour appeler fetchProducts et fetchCategories au chargement du composant
     useEffect(() => {
         fetchProducts();
         fetchCategories();
     }, []);
 
-    // Fonction pour gérer le changement de quantité
     const handleQuantityChange = (productId, value) => {
         setQuantities((prevQuantities) => ({
             ...prevQuantities,
@@ -66,7 +61,6 @@ const CategoriesPage = () => {
         }));
     };
 
-    // Fonction pour ajouter un produit au panier
     const handleAddToCart = async (productId, productName) => {
         const quantity = quantities[productId] || 1;
 
@@ -101,14 +95,12 @@ const CategoriesPage = () => {
         }
     };
 
-    // Fonction pour filtrer les produits par catégorie et par nom
     const filteredProducts = products.filter((product) => {
         const matchesCategory = selectedCategory ? product.idCategorie === selectedCategory : true;
         const matchesSearch = product.nom.toLowerCase().includes(searchTerm.toLowerCase());
         return matchesCategory && matchesSearch;
     });
 
-    // Affichage en fonction de l'état de chargement et des erreurs
     if (loading) {
         return <p className="loading">Chargement des produits...</p>;
     }
@@ -148,7 +140,6 @@ const CategoriesPage = () => {
                 </div>
             </div>
 
-            {/* Liste des produits */}
             {filteredProducts.length === 0 ? (
                 <p className="no-products">Aucun produit trouvé.</p>
             ) : (

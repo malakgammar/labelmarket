@@ -4,21 +4,20 @@ import axios from 'axios';
 import './Panier.css';
 
 const Panier = () => {
-    const [cart, setCart] = useState([]); // État pour stocker les produits du panier
-    const [loading, setLoading] = useState(true); // État pour gérer le chargement
-    const [error, setError] = useState(''); // État pour gérer les erreurs
-    const userId = "12345"; // Remplace par l'ID de l'utilisateur connecté
+    const [cart, setCart] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const userId = "12345";
     const navigate = useNavigate();
 
-    // Fonction pour récupérer le panier de l'utilisateur
     const fetchCart = async () => {
         try {
             const response = await axios.get(`http://localhost:5000/cart`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`, // Inclure le token d'authentification
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
-            setCart(response.data.panier.produits); // Mettre à jour l'état du panier
+            setCart(response.data.panier.produits);
         } catch (err) {
             setError('Erreur lors de la récupération du panier.');
         } finally {
@@ -26,15 +25,14 @@ const Panier = () => {
         }
     };
 
-    // Fonction pour supprimer un produit du panier
     const handleRemoveFromCart = async (productId) => {
         try {
             await axios.delete(`http://localhost:5000/cart/supprimer/${productId}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`, // Inclure le token d'authentification
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
-            fetchCart(); // Recharger le panier après suppression
+            fetchCart();
         } catch (err) {
             setError('Erreur lors de la suppression du produit.');
         }

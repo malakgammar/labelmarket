@@ -41,7 +41,7 @@
 }
 
 .profile-info button {
-    background-color: #007bff;
+    background-color: #ff6b6b;
     color: #fff;
     border: none;
     padding: 0.5rem 1rem;
@@ -51,7 +51,7 @@
 }
 
 .profile-info button:hover {
-    background-color: #0056b3;
+    background-color: #df4343;
 }
 
 .thank-you-message {
@@ -73,3 +73,14 @@
 .cart-icon:hover {
     color: #ff4c4c;
 }
+
+.logout-button {
+    background-color: #ff6b6b;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    margin-left: auto; }

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { useAuth } from './AuthContext'; // Importer le contexte d'authentification
+import { useAuth } from './AuthContext'; 
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const { login, error } = useAuth(); // Utiliser le contexte
+    const { login, error } = useAuth(); 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await login(email, password); // Appeler la fonction login du contexte
-        navigate('/profile'); // Rediriger vers le profil après la connexion
+        await login(email, password); 
+        navigate('/profile'); 
     };
 
     return (

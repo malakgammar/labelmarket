@@ -2,23 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaShoppingCart } from 'react-icons/fa'; // Import de l'icône de panier
+import { FaShoppingCart } from 'react-icons/fa';
 import './Profile.css';
 
 const Profile = () => {
-    const { user } = useAuth(); // Récupérer l'utilisateur connecté
-    const [editMode, setEditMode] = useState(false); // Mode édition
-    const [updatedUser, setUpdatedUser] = useState({ ...user }); // État pour les modifications
+    const { user, logout } = useAuth();
+    const [editMode, setEditMode] = useState(false);
+    const [updatedUser, setUpdatedUser] = useState({ ...user });
     const [successMessage, setSuccessMessage] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    // Fonction pour activer/désactiver le mode édition
+    const handleLogout = () => {
+        logout();
+        navigate('/');
+    };
+
     const toggleEditMode = () => {
         setEditMode(!editMode);
     };
 
-    // Fonction pour mettre à jour les informations de l'utilisateur
     const handleUpdate = async () => {
         try {
             const response = await axios.put(`http://localhost:5000/user/updateU/${user.id}`, updatedUser);
@@ -30,13 +33,11 @@ const Profile = () => {
         }
     };
 
-    // Fonction pour gérer les changements dans les champs de formulaire
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUpdatedUser((prev) => ({ ...prev, [name]: value }));
     };
 
-    // Fonction pour rediriger vers la page du panier
     const goToCart = () => {
         navigate('/panier');
     };
@@ -44,9 +45,7 @@ const Profile = () => {
     return (
         <div className="profile-container">
             <div className="profile-header">
-                <img src="/logo.png" alt="Logo LabelMarket" />
                 <h1>Bienvenue, {user?.nom} !</h1>
-                {/* Icône de panier */}
                 <div className="cart-icon" onClick={goToCart}>
                     <FaShoppingCart size={24} />
                 </div>
@@ -101,6 +100,7 @@ const Profile = () => {
                         <p><strong>Téléphone :</strong> {user?.telephone}</p>
                         <p><strong>Email :</strong> {user?.email}</p>
                         <button onClick={toggleEditMode}>Modifier mes informations</button>
+                        <button onClick={handleLogout} className="logout-button">Déconnexion</button>
                     </>
                 )}
                 {successMessage && <p className="success-message">{successMessage}</p>}

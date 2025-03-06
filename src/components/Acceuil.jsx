@@ -5,13 +5,6 @@ import './Acceuil.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Slider from 'react-slick';
-import emailjs from 'emailjs-com';
-
-const produits = [
-    { id: 1, nom: 'Produit en Gros 1', img: 'https://via.placeholder.com/150' },
-    { id: 2, nom: 'Produit en Gros 2', img: 'https://via.placeholder.com/150' },
-    { id: 3, nom: 'Produit en Gros 3', img: 'https://via.placeholder.com/150' },
-];
 
 export const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -78,14 +71,12 @@ export const Acceuil = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        // Vérifier que tous les champs sont remplis
         if (!formData.name || !formData.email || !formData.message) {
             alert("Veuillez remplir tous les champs du formulaire.");
             return;
         }
     
         try {
-            // Envoyer les données du formulaire à l'API
             const response = await fetch("http://localhost:5000/message/createM", {
                 method: "POST",
                 headers: {
@@ -105,10 +96,8 @@ export const Acceuil = () => {
             const result = await response.json();
             console.log("Réponse de l'API :", result);
     
-            // Afficher un message de succès
             setSuccessMessage("Votre message a été envoyé avec succès !");
     
-            // Réinitialiser le formulaire
             setFormData({
                 name: "",
                 email: "",
@@ -168,32 +157,6 @@ export const Acceuil = () => {
                     <p>Utilisez le code <strong>GROSS20</strong> pour obtenir 20% de réduction sur votre première commande en gros!</p>
                     <p>استخدم الرمز <strong>GROSS20</strong> للحصول على خصم 20% على طلبك الأول بالجملة!</p>
                 </section>
-
-                {/* <section id="produits" className="apropos" data-aos="fade-up">
-                    <h3>Nos Produits - منتجاتنا</h3>
-                    <div className="mission-box">
-                        {produits.map(produit => (
-                            <div key={produit.id} className="produit-card" data-aos="zoom-in">
-                                <img src={produit.img} alt={produit.nom} className="produit-image" />
-                                <h4>{produit.nom}</h4>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
-                <section id="apropos" className="apropos" data-aos="fade-up">
-                    <h3>Promotions - عروض</h3>
-                    <div className="historique">
-                        {['20% de réduction sur tous les produits en gros!', 
-                          '15% de réduction sur les commandes de plus de 1000DH!', 
-                          'Achetez-en 2 en gros, obtenez-en 1 gratuit!'].map((promotion, index) => (
-                            <div className="temoignage-box" data-aos="fade-right" key={index}>
-                                <p>{promotion}</p>
-                                <p>خصم {promotion.includes('20%') ? '20%' : promotion.includes('15%') ? '15%' : 'اشترِ 2 بالجملة، واحصل على 1 مجانًا!'}</p>
-                            </div>
-                        ))}
-                    </div>
-                </section> */}
 
                 <section id="historique" className="historique" data-aos="fade-up">
                     <h2>Historique / التاريخ</h2>
@@ -299,7 +262,7 @@ export const Acceuil = () => {
                     </form>
                     {successMessage && <p className="success-message">{successMessage}</p>}
                     <div className="map-container">
-                        <h3>Notre Localisation - موقعنا :</h3>
+                        <h3>Notre Localisation - موقعنا </h3>
                         <iframe
                             title="Google Map Location"
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509197!2d-7.60969161531567!3d33.57311088085962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12358e24d5a2c0ab%3A0x9f8d1a9b3d3d4b38!2sCasablanca%2C%20Maroc!5e0!3m2!1sen!2sus!4v1618417985084!5m2!1sen!2sus"
