@@ -42,6 +42,7 @@ const Register = () => {
                 <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
             <button type="submit" className="btn btn-primary">S'inscrire / تسجيل</button>
+
         </form>
     );
 };

@@ -216,7 +216,7 @@ export const Acceuil = () => {
                     </div>
                 </section>
 
-                <section className="temoignages">
+                <section className="temoignages" id="temoignages">
                     <h2>Témoignages Clients / آراء العملاء</h2>
                     <div className="temoignage-boxes">
                         {[

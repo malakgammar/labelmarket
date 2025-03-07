@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -16,7 +16,25 @@ export const AuthProvider = ({ children }) => {
         telephone: user?.telephone || '',
         email: user?.email || '',
     });
+    const fetchUser = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) return;
 
+        try {
+            const response = await axios.get('http://localhost:5000/auth/profile', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setUser(response.data);
+        } catch (err) {
+            console.error('Erreur lors de la récupération du profil :', err);
+            localStorage.removeItem('token');
+            setUser(null);
+        }
+    };
+
+    useEffect(() => {
+        fetchUser();
+    }, []);
     const login = async (email, password) => {
         try {
             const response = await axios.post('http://localhost:5000/auth/login', { email, password });

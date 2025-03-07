@@ -1,8 +1,6 @@
 @import '~slick-carousel/slick/slick.css';
 @import '~slick-carousel/slick/slick-theme.css';
 
-
-
 .nav {
   display: flex;
 }
@@ -281,7 +279,7 @@ a {
 }
 
 .logo img {
-  height: 70px;
+  height: 85px;
   transition: transform 0.3s ease;
 }
 

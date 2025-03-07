@@ -6,7 +6,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 import './Profile.css';
 
 const Profile = () => {
-    const { user, logout } = useAuth();
+    const { user, logout, setUser } = useAuth();
     const [editMode, setEditMode] = useState(false);
     const [updatedUser, setUpdatedUser] = useState({ ...user });
     const [successMessage, setSuccessMessage] = useState('');
@@ -18,6 +18,22 @@ const Profile = () => {
         navigate('/');
     };
 
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        console.log("Utilisateur dans localStorage :", storedUser);
+        if (storedUser) {
+            try {
+                const parsedUser = JSON.parse(storedUser);
+                setUser(parsedUser);
+                setUpdatedUser(parsedUser); // Mettre à jour l'état pour l'édition
+            } catch (error) {
+                console.error("Erreur lors du parsing de l'utilisateur :", error);
+            }
+        } else {
+            console.error("Aucune donnée utilisateur trouvée dans localStorage");
+        }
+    }, [setUser]);
+
     const toggleEditMode = () => {
         setEditMode(!editMode);
     };
@@ -28,6 +44,8 @@ const Profile = () => {
             setSuccessMessage('Informations mises à jour avec succès !');
             setError('');
             setEditMode(false);
+            setUser(response.data);
+            localStorage.setItem('user', JSON.stringify(response.data));
         } catch (err) {
             setError(err.response?.data?.message || 'Erreur lors de la mise à jour.');
         }
@@ -42,10 +60,14 @@ const Profile = () => {
         navigate('/panier');
     };
 
+    if (!user) {
+        return <div>Chargement...</div>;
+    }
+
     return (
         <div className="profile-container">
             <div className="profile-header">
-                <h1>Bienvenue, {user?.nom} !</h1>
+                <h1>Bienvenue, {user.nom} !</h1>
                 <div className="cart-icon" onClick={goToCart}>
                     <FaShoppingCart size={24} />
                 </div>
@@ -95,10 +117,10 @@ const Profile = () => {
                     </>
                 ) : (
                     <>
-                        <p><strong>CIN :</strong> {user?.cin}</p>
-                        <p><strong>Nom :</strong> {user?.nom}</p>
-                        <p><strong>Téléphone :</strong> {user?.telephone}</p>
-                        <p><strong>Email :</strong> {user?.email}</p>
+                        <p><strong>CIN :</strong> {user.cin}</p>
+                        <p><strong>Nom :</strong> {user.nom}</p>
+                        <p><strong>Téléphone :</strong> {user.telephone}</p>
+                        <p><strong>Email :</strong> {user.email}</p>
                         <button onClick={toggleEditMode}>Modifier mes informations</button>
                         <button onClick={handleLogout} className="logout-button">Déconnexion</button>
                     </>
@@ -109,7 +131,7 @@ const Profile = () => {
 
             <div className="thank-you-message">
                 <p>
-                    Cher(e) {user?.nom},<br />
+                    Cher(e) {user.nom},<br />
                     Nous tenons à vous remercier pour votre fidélité et votre confiance en LabelMarket.
                     Votre satisfaction est notre priorité, et nous sommes ravis de vous compter parmi nos clients.
                     <br />
