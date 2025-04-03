@@ -9,25 +9,19 @@ import Slider from 'react-slick';
 export const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
-
     return (
         <header className="header">
             <div className="logo">
-                <Link to="/">
-                    <img src="/logo.png" alt="Logo" />
-                </Link>
+                <Link to="/"><img src="/logo.png" alt="Logo" /></Link>
             </div>
-            <button className="menu-toggle" onClick={toggleMenu}>
+            <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 {isMenuOpen ? '✖' : '☰'}
             </button>
             <nav className={`nav ${isMenuOpen ? 'open' : ''}`}>
                 <ul>
                     <li><Link to="/product">Produits - منتجات</Link></li>
                     <li><a href="#coupons">À Propos - حول</a></li>
-                    <li><a href="#contact">Contact - تواصل معنا</a></li>
+                    <li><a href="#temoignage-boxes">Contact - تواصل معنا</a></li>
                     <li><Link to="/authentification">Profil - الملف الشخصي</Link></li>
                 </ul>
             </nav>
@@ -38,107 +32,68 @@ export const Header = () => {
 export const Acceuil = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: ''
-    });
-    const [successMessage, setSuccessMessage] = useState('');
-    
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState({ name: '', email: '', message: '', rating: 0 });
+
     useEffect(() => {
         AOS.init();
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 2000);
+        setTimeout(() => setLoading(false), 2000);
+    }, []);
 
-        return () => clearTimeout(timer);
+    // Récupération des témoignages depuis l'API
+    useEffect(() => {
+        const fetchMessages = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/message/getallmessages");
+                if (!response.ok) throw new Error("Erreur lors de la récupération des messages");
+                const data = await response.json();
+                setMessages(data);
+            } catch (error) {
+                console.error("Erreur :", error);
+            }
+        };
+        fetchMessages();
     }, []);
 
     const handleProductClick = () => {
         setLoading(true);
-        setTimeout(() => {
-            navigate('/product');
-        }, 500);
+        setTimeout(() => navigate('/product'), 500);
     };
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
+    if (loading) return <Loader />;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        if (!formData.name || !formData.email || !formData.message) {
-            alert("Veuillez remplir tous les champs du formulaire.");
-            return;
-        }
-    
         try {
             const response = await fetch("http://localhost:5000/message/createM", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    name: formData.name,
-                    email: formData.email,
-                    message: formData.message,
-                }),
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newMessage),
             });
-    
-            if (!response.ok) {
-                throw new Error("Erreur lors de l'envoi du message.");
-            }
-    
-            const result = await response.json();
-            console.log("Réponse de l'API :", result);
-    
-            setSuccessMessage("Votre message a été envoyé avec succès !");
-    
-            setFormData({
-                name: "",
-                email: "",
-                message: "",
-            });
+            if (!response.ok) throw new Error("Erreur lors de l'ajout du témoignage");
+
+            const addedMessage = await response.json();
+            setMessages([...messages, addedMessage]);
+            setNewMessage({ name: '', email: '', message: '', rating: 0 });
         } catch (error) {
             console.error("Erreur :", error);
-            setSuccessMessage("Une erreur est survenue. Veuillez réessayer.");
         }
     };
 
-    if (loading) {
-        return <Loader />;
-    }
-
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 2000,
+    const handleStarClick = (rating) => {
+        setNewMessage({ ...newMessage, rating });
     };
 
     return (
         <div className="acceuil">
+            <Header />
+
             <div className="carousel">
-                <Slider {...settings}>
-                    <div>
-                        <img src="/carou1.png" alt="Carrousel 1" />
-                    </div>
-                    <div>
-                        <img src="/carou2.png" alt="Carrousel 2" />
-                    </div>
-                    <div>
-                        <img src="/carou3.png" alt="Carrousel 3" />
-                    </div>
-                    <div>
-                        <img src="/carou4.png" alt="Carrousel 4" />
-                    </div>
+                <Slider dots infinite speed={500} slidesToShow={1} slidesToScroll={1} autoplay autoplaySpeed={2000}>
+                    <div><img src="/carou1.png" alt="Carrousel 1" /></div>
+                    <div><img src="/carou2.png" alt="Carrousel 2" /></div>
+                    <div><img src="/carou3.png" alt="Carrousel 3" /></div>
+                    <div><img src="/carou4.png" alt="Carrousel 4" /></div>
                 </Slider>
             </div>
 
@@ -148,10 +103,11 @@ export const Acceuil = () => {
                     <h2>مرحبًا بك في </h2>
                     <h1>LabelMarket</h1>
                     <p>Découvrez nos produits en gros et nos meilleures offres!</p>
-                    <p>اكتشف منتجاتنا بالجملة وأفضل العروض لدينا!</p>
-                    <button onClick={handleProductClick} className="cta-button">Voir les produits - عرض المنتجات</button>
+                    <button onClick={handleProductClick} className="cta-button">
+                        Voir les produits - عرض المنتجات
+                    </button>
                 </section>
-                
+
                 <section id="coupons" className="coupons fixed">
                     <h3>Coupons - قسائم</h3>
                     <p>Utilisez le code <strong>GROSS20</strong> pour obtenir 20% de réduction sur votre première commande en gros!</p>
@@ -217,67 +173,62 @@ export const Acceuil = () => {
                 </section>
 
                 <section className="temoignages" id="temoignages">
-                    <h2>Témoignages Clients / آراء العملاء</h2>
-                    <div className="temoignage-boxes">
-                        {[
-                            { name: 'Marie Dupont', email: 'mariiie@gmail.com', stars: '⭐⭐⭐⭐⭐', comment: 'Un excellent service et des produits de haute qualité. Je recommande vivement!' },
-                            { name: 'Ahmed El Mansouri', email: 'elmansouri@gmail.com', stars: '⭐⭐⭐⭐', comment: 'J\'ai toujours été satisfait de mes commandes. Bravo à l\'équipe 👏👏👏👏' },
-                            { name: 'Fatima Zahra', email: 'fatimben@gmail.com', stars: '⭐⭐⭐⭐⭐', comment: 'Une expérience d\'achat incroyable! Je reviendrai sûrement.' },
-                            { name: 'Omar Benali', email: 'omarbenali@gmail.com', stars: '⭐⭐⭐⭐', comment: 'Produits de qualité et livraison rapide. Très satisfait!' }
-                        ].map((temoignage) => (
-                            <div className="temoignage-box" data-aos="zoom-in" key={temoignage.name}>
+   
+                <h2>Témoignages Clients / آراء العملاء</h2>
+                <div className="temoignage-boxes">
+                    {messages.length > 0 ? (
+                        messages.map(({ _id, name, email, message, rating}) => (
+                            <div className="temoignage-box" data-aos="zoom-in" key={_id}>
+                                {/* Profil en haut */}
                                 <div className="profile">
-                                    <img src="/photoProfile.png" alt={temoignage.name} className="avatar" />
+                                    <img src="/photoProfile.png" alt={name} className="avatar" />
                                     <div className="profile-info">
-                                        <h3>{temoignage.name}</h3>
-                                        <p>{temoignage.email}</p>
+                                        <h3>{name}</h3>
+                                        <p className="email">{email}</p>
                                     </div>
                                 </div>
-                                <div className="stars">{temoignage.stars}</div>
-                                <p>{temoignage.comment}</p>
+
+                                {/* Message du client */}
+                                <p className="message">{message}</p>
+
+                                {/* Étoiles de notation */}
+                                <div className="stars">
+                                    {'★'.repeat(rating)}{'☆'.repeat(5 - rating)}
+                                </div>
                             </div>
+                        ))
+                    ) : (
+                        <p>Aucun témoignage disponible pour le moment.</p>
+                    )}
+                </div>
+            </section>
+
+            {/* Formulaire d'ajout de témoignage */}
+            <section className="ajout-temoignage">
+                <h2>Ajouter votre témoignage</h2>
+                <form onSubmit={handleSubmit}>
+                    <input type="text" placeholder="Nom" value={newMessage.name} onChange={(e) => setNewMessage({ ...newMessage, name: e.target.value })} required />
+                    <input type="email" placeholder="Email" value={newMessage.email} onChange={(e) => setNewMessage({ ...newMessage, email: e.target.value })} required />
+                    <textarea placeholder="Votre message" value={newMessage.message} onChange={(e) => setNewMessage({ ...newMessage, message: e.target.value })} required></textarea>
+
+                    Sélecteur d'étoiles
+                    <div className="stars-selector">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <span key={star} className={star <= newMessage.rating ? "selected-star" : ""} onClick={() => handleStarClick(star)}>
+                                ★
+                            </span>
                         ))}
                     </div>
-                </section>
 
-                <section id="contact" className="contact" data-aos="fade-up">
-                    <h2>Contactez-nous - تواصل معنا</h2>
-                    <p>Pour toute question, n'hésitez pas à nous contacter : إذا كان لديك أي أسئلة ، فلا تتردد في التواصل معنا</p>
-                    <form onSubmit={handleSubmit}>
-                        <table>
-                            <tr>
-                                <td><label htmlFor="name">Nom - الاسم :</label></td>
-                                <td><input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required /></td>
-                            </tr>
-                            <tr>
-                                <td><label htmlFor="email">Email - البريد الإلكتروني :</label></td>
-                                <td><input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required /></td>
-                            </tr>
-                            <tr>
-                                <td><label htmlFor="message">Message - الرسالة :</label></td>
-                                <td><input type="text" id="message" name="message" value={formData.message} onChange={handleChange} required /></td>
-                            </tr>
-                        </table>
-                        <button type="submit">Envoyer - إرسال</button>
-                    </form>
-                    {successMessage && <p className="success-message">{successMessage}</p>}
-                    <div className="map-container">
-                        <h3>Notre Localisation - موقعنا </h3>
-                        <iframe
-                            title="Google Map Location"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509197!2d-7.60969161531567!3d33.57311088085962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12358e24d5a2c0ab%3A0x9f8d1a9b3d3d4b38!2sCasablanca%2C%20Maroc!5e0!3m2!1sen!2sus!4v1618417985084!5m2!1sen!2sus"
-                            width="600"
-                            height="450"
-                            style={{ border: 0 }}
-                            allowFullScreen=""
-                            loading="lazy"
-                        ></iframe>
+                    <button type="submit">Envoyer</button>
+                </form>
+            </section>
+
+                        </main>
+
                     </div>
-                </section>
-            </main>
-        </div>
-    );
-};
+                );
+            };
 
 export const Footer = () => {
     return (

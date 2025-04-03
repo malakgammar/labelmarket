@@ -8,37 +8,32 @@ import './Profile.css';
 const Profile = () => {
     const { user, logout, setUser } = useAuth();
     const [editMode, setEditMode] = useState(false);
-    const [updatedUser, setUpdatedUser] = useState({ ...user });
+    const [updatedUser, setUpdatedUser] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            setUpdatedUser(user);
+        }
+    }, [user]);
 
     const handleLogout = () => {
         logout();
         navigate('/');
     };
 
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        console.log("Utilisateur dans localStorage :", storedUser);
-        if (storedUser) {
-            try {
-                const parsedUser = JSON.parse(storedUser);
-                setUser(parsedUser);
-                setUpdatedUser(parsedUser); // Mettre à jour l'état pour l'édition
-            } catch (error) {
-                console.error("Erreur lors du parsing de l'utilisateur :", error);
-            }
-        } else {
-            console.error("Aucune donnée utilisateur trouvée dans localStorage");
-        }
-    }, [setUser]);
-
     const toggleEditMode = () => {
         setEditMode(!editMode);
     };
 
     const handleUpdate = async () => {
+        if (!user || !user.id) {
+            setError('Utilisateur non trouvé.');
+            return;
+        }
+
         try {
             const response = await axios.put(`http://localhost:5000/user/updateU/${user.id}`, updatedUser);
             setSuccessMessage('Informations mises à jour avec succès !');
@@ -47,6 +42,7 @@ const Profile = () => {
             setUser(response.data);
             localStorage.setItem('user', JSON.stringify(response.data));
         } catch (err) {
+            console.error("Erreur lors de la mise à jour :", err);
             setError(err.response?.data?.message || 'Erreur lors de la mise à jour.');
         }
     };
