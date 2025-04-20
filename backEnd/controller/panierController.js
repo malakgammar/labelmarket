@@ -1,3 +1,4 @@
+// controller/panierController.js
 import Panier from "../model/panierModel.js"; 
 import Produit from "../model/productModel.js";
 

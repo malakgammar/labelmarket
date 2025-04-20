@@ -86,7 +86,6 @@ export const Acceuil = () => {
 
     return (
         <div className="acceuil">
-            <Header />
 
             <div className="carousel">
                 <Slider dots infinite speed={500} slidesToShow={1} slidesToScroll={1} autoplay autoplaySpeed={2000}>

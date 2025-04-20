@@ -11,6 +11,7 @@ const CategoriesPage = () => {
     const [quantities, setQuantities] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedProduct, setSelectedProduct] = useState(null);
     const userId = "12345";
 
     const fetchProducts = async () => {
@@ -63,29 +64,41 @@ const CategoriesPage = () => {
 
     const handleAddToCart = async (productId, productName) => {
         const quantity = quantities[productId] || 1;
-
-        if (isNaN(quantity)) {
+        const token = localStorage.getItem("token");
+    
+        if (!token) {
+            alert("Vous devez être connecté pour ajouter un produit au panier.");
+            window.location.href = "/login";
+            return;
+        }
+    
+        if (isNaN(quantity) || quantity <= 0) {
             alert("Veuillez entrer une quantité valide.");
             return;
         }
-
+    
         try {
-            const response = await fetch("http://localhost:5000/cart/add", {
+            const response = await fetch("http://localhost:5000/panier/ajouter", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    userId,
                     idproduit: productId,
                     quantite: quantity,
                 }),
             });
-
+    
             if (!response.ok) {
+                if (response.status === 401 || response.status === 400) {
+                    alert("Session expirée ou non autorisée. Veuillez vous reconnecter.");
+                    window.location.href = "/login";
+                    return;
+                }
                 throw new Error("Erreur lors de l'ajout au panier");
             }
-
+    
             const result = await response.json();
             console.log("Réponse de l'API :", result);
             alert(`${quantity} ${productName} ajouté(s) au panier !`);
@@ -93,6 +106,14 @@ const CategoriesPage = () => {
             console.error("Erreur :", error);
             alert("Erreur lors de l'ajout au panier.");
         }
+    };
+
+    const handleShowDetails = (product) => {
+        setSelectedProduct(product);
+    };
+
+    const handleCloseDetails = () => {
+        setSelectedProduct(null);
     };
 
     const filteredProducts = products.filter((product) => {
@@ -123,7 +144,6 @@ const CategoriesPage = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-
                 <div className="category-filter">
                     <select
                         id="category"
@@ -149,7 +169,6 @@ const CategoriesPage = () => {
                             <img src={product.photo} alt={product.nom} />
                             <h3>{product.nom}</h3>
                             <p className="productPrice">{product.prix.toFixed(2)} MAD</p>
-                            <p className="productDescription">{product.description}</p>
                             <input
                                 type="number"
                                 min="1"
@@ -162,8 +181,23 @@ const CategoriesPage = () => {
                             >
                                 Ajouter au panier
                             </button>
+                            <button onClick={() => handleShowDetails(product)}>
+                                Voir détails
+                            </button>
                         </div>
                     ))}
+                </div>
+            )}
+
+            {selectedProduct && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <span className="close" onClick={handleCloseDetails}>&times;</span>
+                        <h2>{selectedProduct.nom}</h2>
+                        <img src={selectedProduct.photo} alt={selectedProduct.nom} />
+                        <p>{selectedProduct.description}</p>
+                        <p className="productPrice">{selectedProduct.prix.toFixed(2)} MAD</p>
+                    </div>
                 </div>
             )}
         </div>
