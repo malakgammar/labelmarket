@@ -10,12 +10,27 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
+
     const [updatedUser, setUpdatedUser] = useState({
-        cin: user?.cin || '',
-        nom: user?.nom || '',
-        telephone: user?.telephone || '',
-        email: user?.email || '',
+        cin: '',
+        nom: '',
+        telephone: '',
+        email: '',
     });
+
+    // Met à jour updatedUser dès que user change
+    useEffect(() => {
+        if (user) {
+            setUpdatedUser({
+                cin: user.cin || '',
+                nom: user.nom || '',
+                telephone: user.telephone || '',
+                email: user.email || '',
+            });
+        }
+    }, [user]);
+
+    // Récupérer l'utilisateur connecté au chargement
     const fetchUser = async () => {
         const token = localStorage.getItem('token');
         if (!token) return;
@@ -35,12 +50,11 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         fetchUser();
     }, []);
+
+    // Connexion
     const login = async (email, password) => {
         try {
-            const response = await axios.post('http://localhost:5000/auth/login', { 
-                email,
-                password 
-            });
+            const response = await axios.post('http://localhost:5000/auth/login', { email, password });
             const { token, user } = response.data;
             localStorage.setItem('token', token);
             setUser(user);
@@ -50,6 +64,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Inscription
     const register = async (cin, nom, telephone, email, password) => {
         try {
             const response = await axios.post('http://localhost:5000/auth/register', {
@@ -59,22 +74,34 @@ export const AuthProvider = ({ children }) => {
                 email,
                 password,
             });
-            const { token, user } = response.data;
-            localStorage.setItem('token', token);
-            setUser(user);
-            setError(null);
+
+            // Ajout : login automatique après inscription
+            await login(email, password);
         } catch (err) {
             setError(err.response?.data?.message || 'Erreur lors de l\'inscription.');
         }
     };
 
+    // Déconnexion
     const logout = () => {
         localStorage.removeItem('token');
         setUser(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, setUser, login, register, logout, error, setError, updatedUser, setUpdatedUser }}>
+        <AuthContext.Provider
+            value={{
+                user,
+                setUser,
+                login,
+                register,
+                logout,
+                error,
+                setError,
+                updatedUser,
+                setUpdatedUser
+            }}
+        >
             {children}
         </AuthContext.Provider>
     );

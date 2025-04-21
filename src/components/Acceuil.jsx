@@ -5,9 +5,17 @@ import './Acceuil.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Slider from 'react-slick';
+import { useAuth } from './AuthContext'; // ✅ Ajout pour logout
 
 export const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { logout, user } = useAuth(); // ✅ Ajout
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        await logout(); 
+        navigate('/'); 
+    };
 
     return (
         <header className="header">
@@ -23,6 +31,13 @@ export const Header = () => {
                     <li><a href="#coupons">À Propos - حول</a></li>
                     <li><a href="#temoignage-boxes">Contact - تواصل معنا</a></li>
                     <li><Link to="/authentification">Profil - الملف الشخصي</Link></li>
+                    {user && (
+                        <li>
+                            <button onClick={handleLogout} className="btn btn-link logout-btn">
+                                Déconnexion / تسجيل الخروج
+                            </button>
+                        </li>
+                    )}
                 </ul>
             </nav>
         </header>
@@ -40,7 +55,6 @@ export const Acceuil = () => {
         setTimeout(() => setLoading(false), 2000);
     }, []);
 
-    // Récupération des témoignages depuis l'API
     useEffect(() => {
         const fetchMessages = async () => {
             try {
@@ -83,10 +97,16 @@ export const Acceuil = () => {
     const handleStarClick = (rating) => {
         setNewMessage({ ...newMessage, rating });
     };
+    const provinces = [
+        { name: "Casablanca", location: "Centre-Ouest" },
+        { name: "Rabat", location: "Nord-Ouest" },
+        { name: "Marrakech", location: "Centre" },
+        { name: "Fès", location: "Nord" }
+    ];
+    
 
     return (
         <div className="acceuil">
-
             <div className="carousel">
                 <Slider dots infinite speed={500} slidesToShow={1} slidesToScroll={1} autoplay autoplaySpeed={2000}>
                     <div><img src="/carou1.png" alt="Carrousel 1" /></div>
@@ -115,32 +135,26 @@ export const Acceuil = () => {
 
                 <section id="historique" className="historique" data-aos="fade-up">
                     <h2>Historique / التاريخ</h2>
-                    <p><h5>
+                    <h5>
                         Fondé en 2000, LabelMarket a commencé comme une petite plateforme de vente de produits locaux. 
                         Grâce à notre engagement envers la qualité et le service client, nous avons rapidement grandi pour devenir 
                         l'un des principaux acteurs du commerce en ligne.
                         <br /> <br />
                         تأسست LabelMarket في عام 2000، وبدأت كمنصة صغيرة لبيع المنتجات المحلية. بفضل التزامنا بالجودة وخدمة العملاء، نما بسرعة لنصبح أحد اللاعبين الرئيسيين في التجارة الإلكترونية.
-                    </h5></p>
+                    </h5>
                 </section>
 
                 <section className="provinces">
-                    <h2>Nos Provinces / مقاطعاتنا</h2>
-                    <div className="province-boxes">
-                        {[
-                            { name: 'Casablanca-Settat', location: 'Quartier Beausite, Voie AS-31, Casablanca 20250، المغرب' },
-                            { name: 'Rabat-Salé-Kénitra', location: 'Hay Ryad, Rabat' },
-                            { name: 'Marrakech-Safi', location: 'Rez de chausse Al Fiddia lotissement 1 et lotissement 2 Avenue, Agadir 80060' },
-                            { name: 'Fès-Meknès', location: 'N 157 Rue 17 Hay Sidi Hadi El Hadi Zouagha, Fes, Fes-meknes 30000' },
-                            { name: 'Tanger-Tétouan-Al Hoceima', location: 'Rue bilal res arkhabil, 90000 Tangier' }
-                        ].map((province) => (
-                            <div className="province-box" key={province.name} data-aos="zoom-in">
-                                <h3>{province.name}</h3>
-                                <p><strong>Localisation : </strong>{province.location}</p>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+    <h2>Nos Provinces / مقاطعاتنا</h2>
+    <div className="province-boxes">
+        {provinces.map((province) => (
+            <div className="province-box" key={province.name} data-aos="zoom-in">
+                <h3>{province.name}</h3>
+                <p><strong>Localisation : </strong>{province.location}</p>
+            </div>
+        ))}
+    </div>
+</section>
 
                 <section className="missions">
                     <h2>Nos Missions / مهامنا</h2>
@@ -172,62 +186,52 @@ export const Acceuil = () => {
                 </section>
 
                 <section className="temoignages" id="temoignages">
-   
-                <h2>Témoignages Clients / آراء العملاء</h2>
-                <div className="temoignage-boxes">
-                    {messages.length > 0 ? (
-                        messages.map(({ _id, name, email, message, rating}) => (
-                            <div className="temoignage-box" data-aos="zoom-in" key={_id}>
-                                {/* Profil en haut */}
-                                <div className="profile">
-                                    <img src="/photoProfile.png" alt={name} className="avatar" />
-                                    <div className="profile-info">
-                                        <h3>{name}</h3>
-                                        <p className="email">{email}</p>
+                    <h2>Témoignages Clients / آراء العملاء</h2>
+                    <div className="temoignage-boxes">
+                        {messages.length > 0 ? (
+                            messages.map(({ _id, name, email, message, rating }) => (
+                                <div className="temoignage-box" data-aos="zoom-in" key={_id}>
+                                    <div className="profile">
+                                        <img src="/photoProfile.png" alt={name} className="avatar" />
+                                        <div className="profile-info">
+                                            <h3>{name}</h3>
+                                            <p className="email">{email}</p>
+                                        </div>
+                                    </div>
+                                    <p className="message">{message}</p>
+                                    <div className="stars">
+                                        {'★'.repeat(rating)}{'☆'.repeat(5 - rating)}
                                     </div>
                                 </div>
-
-                                {/* Message du client */}
-                                <p className="message">{message}</p>
-
-                                {/* Étoiles de notation */}
-                                <div className="stars">
-                                    {'★'.repeat(rating)}{'☆'.repeat(5 - rating)}
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <p>Aucun témoignage disponible pour le moment.</p>
-                    )}
-                </div>
-            </section>
-
-            {/* Formulaire d'ajout de témoignage */}
-            <section className="ajout-temoignage">
-                <h2>Ajouter votre témoignage</h2>
-                <form onSubmit={handleSubmit}>
-                    <input type="text" placeholder="Nom" value={newMessage.name} onChange={(e) => setNewMessage({ ...newMessage, name: e.target.value })} required />
-                    <input type="email" placeholder="Email" value={newMessage.email} onChange={(e) => setNewMessage({ ...newMessage, email: e.target.value })} required />
-                    <textarea placeholder="Votre message" value={newMessage.message} onChange={(e) => setNewMessage({ ...newMessage, message: e.target.value })} required></textarea>
-
-                    Sélecteur d'étoiles
-                    <div className="stars-selector">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                            <span key={star} className={star <= newMessage.rating ? "selected-star" : ""} onClick={() => handleStarClick(star)}>
-                                ★
-                            </span>
-                        ))}
+                            ))
+                        ) : (
+                            <p>Aucun témoignage disponible pour le moment.</p>
+                        )}
                     </div>
+                </section>
 
-                    <button type="submit">Envoyer</button>
-                </form>
-            </section>
+                <section className="ajout-temoignage">
+                    <h2>Ajouter votre témoignage</h2>
+                    <form onSubmit={handleSubmit}>
+                        <input type="text" placeholder="Nom" value={newMessage.name} onChange={(e) => setNewMessage({ ...newMessage, name: e.target.value })} required />
+                        <input type="email" placeholder="Email" value={newMessage.email} onChange={(e) => setNewMessage({ ...newMessage, email: e.target.value })} required />
+                        <textarea placeholder="Votre message" value={newMessage.message} onChange={(e) => setNewMessage({ ...newMessage, message: e.target.value })} required></textarea>
 
-                        </main>
+                        <div className="stars-selector">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <span key={star} className={star <= newMessage.rating ? "selected-star" : ""} onClick={() => handleStarClick(star)}>
+                                    ★
+                                </span>
+                            ))}
+                        </div>
 
-                    </div>
-                );
-            };
+                        <button type="submit">Envoyer</button>
+                    </form>
+                </section>
+            </main>
+        </div>
+    );
+};
 
 export const Footer = () => {
     return (

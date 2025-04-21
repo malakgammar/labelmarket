@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./CategoriesPage.css"; 
+import "./CategoriesPage.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from "react-router-dom";
 
 const CategoriesPage = () => {
     const [products, setProducts] = useState([]);
@@ -12,7 +13,7 @@ const CategoriesPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const userId = "12345";
+    const navigate = useNavigate();
 
     const fetchProducts = async () => {
         try {
@@ -68,7 +69,7 @@ const CategoriesPage = () => {
     
         if (!token) {
             alert("Vous devez être connecté pour ajouter un produit au panier.");
-            window.location.href = "/login";
+            navigate("/login");
             return;
         }
     
@@ -90,23 +91,26 @@ const CategoriesPage = () => {
                 }),
             });
     
-            if (!response.ok) {
-                if (response.status === 401 || response.status === 400) {
-                    alert("Session expirée ou non autorisée. Veuillez vous reconnecter.");
-                    window.location.href = "/login";
-                    return;
-                }
-                throw new Error("Erreur lors de l'ajout au panier");
+            if (response.status === 401 || response.status === 403) {
+                alert("Session expirée ou non autorisée. Veuillez vous reconnecter.");
+                navigate("/login");
+                return;
             }
     
-            const result = await response.json();
-            console.log("Réponse de l'API :", result);
-            alert(`${quantity} ${productName} ajouté(s) au panier !`);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Erreur lors de l'ajout au panier.");
+            }
+    
+            // Redirection vers le panier
+            navigate("/panier");
+    
         } catch (error) {
             console.error("Erreur :", error);
-            alert("Erreur lors de l'ajout au panier.");
+            alert(error.message || "Erreur lors de l'ajout au panier.");
         }
     };
+    
 
     const handleShowDetails = (product) => {
         setSelectedProduct(product);
