@@ -9,6 +9,7 @@ const panierSchema = new mongoose.Schema({
         prixUnitaire: { type: Number, required: true }
     }],
     total: { type: Number, required: true },
+    statut: { type: String, default: 'en attente' } 
 }, { timestamps: true });
 
 export default mongoose.model('Panier', panierSchema);

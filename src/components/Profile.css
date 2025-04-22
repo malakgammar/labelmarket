@@ -1,86 +1,132 @@
+/* Profile.css - Version minimaliste */
+
 .profile-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 150px auto 2rem auto;}
-
-.profile-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-
-.profile-header h1 {
-    font-size: 2rem;
-    color: #333;
-}
-
-.profile-info {
-    width: 100%;
-    background-color: #fff;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.profile-info p {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    color: #555;
-}
-
-.profile-info strong {
-    color: #333;
-}
-
-.profile-info button {
-    background-color: #ff6b6b;
-    color: #fff;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 1rem;
-}
-
-.profile-info button:hover {
-    background-color: #df4343;
-}
-
-.thank-you-message {
-    margin-top: 2rem;
+    padding: 100px 2rem 2rem;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fff 0%, #fff 50%, #ffeded 100%);
+  }
+  
+  .profile-header {
     text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .profile-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #cc0000;
+    margin-bottom: 1rem;
+  }
+  
+  .cart-icon {
+    position: fixed;
+    top: 100px;
+    right: 30px;
+    color: #ff0000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+  }
+  
+  .cart-icon:hover {
+    transform: scale(1.2);
+  }
+  
+  .profile-info {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 0;
+  }
+  
+  .profile-info p {
+    font-size: 1.1rem;
+    margin: 1.5rem 0;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid #ff000033;
+  }
+  
+  button {
+    background: transparent;
+    color: #ff0000;
+    border: 2px solid #ff0000;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 1rem 0;
+  }
+  
+  button:hover {
+    background: #ff0000;
+    color: white;
+    transform: translateY(-2px);
+  }
+  
+  input {
+    width: 100%;
+    padding: 1rem 0;
+    border: none;
+    border-bottom: 2px solid #eee;
+    margin: 1.5rem 0;
+    background: transparent;
+    transition: all 0.3s ease;
+  }
+  
+  input:focus {
+    border-bottom-color: #ff0000;
+    outline: none;
+  }
+  
+  .thank-you-message {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem 0;
     font-style: italic;
     color: #666;
-}
-
-.cart-icon {
+    border-top: 2px solid #ff000033;
+  }
+  
+  .success-message {
+    color: #00cc00;
+    padding: 1rem 0;
+  }
+  
+  .error {
+    color: #ff0000;
+    padding: 1rem 0;
+  }
+  
+  /* Icônes intégrées dans le texte */
+  div > div {
+    position: relative;
+  }
+  
+  div > div::before {
+    content: '';
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
     position: absolute;
-    top:150px;
-    right: 20px;
-    cursor: pointer;
-    color: #ff6b6b;
-    transition: color 0.3s ease;
-}
-
-.cart-icon:hover {
-    color: #ff4c4c;
-}
-
-.logout-button {
-    background-color: #ff6b6b;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    margin-left: auto; }
+    left: -30px;
+    color: #ff0000;
+  }
+  
+  div:nth-child(1)::before { content: '\f2c2'; } /* CIN */
+  div:nth-child(2)::before { content: '\f007'; } /* Nom */
+  div:nth-child(3)::before { content: '\f095'; } /* Téléphone */
+  div:nth-child(4)::before { content: '\f0e0'; } /* Email */
+  
+  @media (max-width: 768px) {
+    .profile-header h1 {
+      font-size: 2rem;
+    }
+    
+    .cart-icon {
+      top: 90px;
+      right: 15px;
+    }
+    
+    div > div::before {
+      left: -25px;
+    }
+  }

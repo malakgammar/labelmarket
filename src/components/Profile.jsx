@@ -19,11 +19,6 @@ const Profile = () => {
         }
     }, [user]);
 
-    const handleLogout = () => {
-        logout();
-        navigate('/');
-    };
-
     const toggleEditMode = () => {
         setEditMode(!editMode);
     };
@@ -118,7 +113,6 @@ const Profile = () => {
                         <p><strong>Téléphone :</strong> {user.telephone}</p>
                         <p><strong>Email :</strong> {user.email}</p>
                         <button onClick={toggleEditMode}>Modifier mes informations</button>
-                        <button onClick={handleLogout} className="logout-button">Déconnexion</button>
                     </>
                 )}
                 {successMessage && <p className="success-message">{successMessage}</p>}
